@@ -18,6 +18,8 @@
 	},
 	"homepage": "https://github.com/observian/aws-ssm-parameter-manager#readme",
 	"dependencies": {
+		"aws-sdk": "^2.220.1",
+		"bluebird": "^3.5.1",
 		"electron": "^1.8.4"
 	}
 }
