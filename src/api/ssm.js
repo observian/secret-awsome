@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const defaultRegions = require(`${process.cwd()}/src/helper/default-regions.json`);
+const defaultRegions = require('../helper/default-regions.json');
 const Promise = require('bluebird');
 
 AWS.config.setPromisesDependency(Promise);

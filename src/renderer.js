@@ -1,4 +1,4 @@
-let ssm = require(`${process.cwd()}/src/api/ssm`);
+let ssm = require('./api/ssm');
 let allParams = [];
 
 const getAllParamsBtn = document.getElementById('get-all-parameters');
