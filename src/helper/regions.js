@@ -1,4 +1,4 @@
-const defaultRegions = require(`${process.cwd()}/src/helper/default-regions.json`);
+const defaultRegions = require('./default-regions.json');
 
 function getRegions() {
 	let regions = [];
