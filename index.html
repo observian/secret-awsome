@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Observian SSM Parameter Store Manager</title>
+	<link rel="stylesheet" href="src/assets/css/global.css">
+	<link rel="stylesheet" href="src/assets/css/nativize.css">
+	<link rel="stylesheet" href="src/assets/css/nav.css">
+	<link rel="stylesheet" href="src/assets/css/section.css">
 </head>
-<body>
-	<h1>Parameter Store Manager</h1>
 
+<body>
+	<main class='content is-shown'>
+		<section class='section is-shown'>
+			<div class='section-wrapper'>
+				<h1>Parameter Store Manager</h1>
+				<button id='get-all-parameters'>Get All</button>
+				<ul id='all-param-list'></ul>
+			</div>
+		</section>
+	</main>
 </body>
+<script>
+	require('./renderer');
+</script>
+
 </html>

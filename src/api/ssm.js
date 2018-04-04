@@ -22,10 +22,11 @@ function getAllParameters() {
 		let prom = ssm.getParametersByPath(params)
 			.promise()
 			.then(results => {
+				results.Region = reg.region;
 				return results;
 			})
 			.catch(err => {
-				console.log(err, err.stack);
+				console.error(err, err.stack);
 				return [];
 			});
 
