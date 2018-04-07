@@ -36,8 +36,33 @@ function getAllParameters() {
 	return Promise.all(proms);
 }
 
+function updateParameter(name, type, value, region) {
+	let params = {
+		Name: name,
+		Type: type,
+		Value: value,
+		Overwrite: true
+	};
+
+	const ssm = new AWS.SSM({
+		region: region
+	});
+
+
+	let prom = ssm.putParameter(params)
+		.promise()
+		.then(results => results)
+		.catch(err => {
+			console.error(err, err.stack);
+			return [];
+		});
+
+	return prom;
+}
+
 
 module.exports.getAllParameters = getAllParameters;
+module.exports.updateParameter = updateParameter;
 
 
 // {

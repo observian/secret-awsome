@@ -1,12 +1,36 @@
-let ssm = require('./api/ssm');
+import {
+	getAllParameters
+} from "./api/ssm";
+import {
+	ipcRenderer
+} from "electron";
+
+
 let allParams = [];
 
+ipcRenderer.on('reload', (event, arg) => {
+	getAll()
+		.then(() => {
+			ipcRenderer.send('index-refresh-complete', arg);
+		});
+});
+
+
 const getAllParamsBtn = document.getElementById('get-all-parameters');
+
+function valueClickListener(ev) {
+	ipcRenderer.send('modify', JSON.stringify(ev.currentTarget.dataset));
+
+
+	console.log(JSON.stringify(ev.currentTarget.dataset));
+}
 
 function createAndAppendListItem(list, innerText) {
 	let li = document.createElement('li');
 	li.innerText = innerText;
 	list.appendChild(li);
+
+	return li;
 }
 
 function createListObj(param) {
@@ -17,9 +41,6 @@ function createListObj(param) {
 		return innerUl;
 	}
 
-	let paramSectionUl = document.createElement('ul');
-	createAndAppendListItem(paramSectionUl, `Parameters`);
-
 	for (let i = 0; i < param.Parameters.length; i++) {
 		let paramUl = document.createElement('ul');
 		const item = param.Parameters[i];
@@ -27,13 +48,16 @@ function createListObj(param) {
 
 		let infoUl = document.createElement('ul');
 		createAndAppendListItem(infoUl, `${item.Type}`);
-		createAndAppendListItem(infoUl, `${item.Value}`);
+		let valueItem = createAndAppendListItem(infoUl, `${item.Value}`);
+		valueItem.setAttribute('data-region', param.Region);
+		valueItem.setAttribute('data-name', item.Name);
+		valueItem.setAttribute('data-type', item.Type);
+		valueItem.setAttribute('data-value', item.Value);
+		valueItem.addEventListener('click', valueClickListener);
 
 		paramUl.appendChild(infoUl);
-		paramSectionUl.appendChild(paramUl);
+		innerUl.appendChild(paramUl);
 	}
-
-	innerUl.appendChild(paramSectionUl);
 
 	return innerUl;
 }
@@ -57,8 +81,8 @@ function setParamList(params) {
 	}
 }
 
-getAllParamsBtn.addEventListener('click', () => {
-	ssm.getAllParameters()
+function getAll() {
+	return getAllParameters()
 		.then(params => {
 			allParams = params;
 			setParamList(allParams);
@@ -66,5 +90,10 @@ getAllParamsBtn.addEventListener('click', () => {
 		.catch(err => {
 			console.error(err, err.stack);
 		});
+}
 
+getAllParamsBtn.addEventListener('click', () => {
+	getAll();
 });
+
+getAll();
