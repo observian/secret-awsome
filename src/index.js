@@ -19,10 +19,12 @@ ipcRenderer.on('reload', (event, arg) => {
 const getAllParamsBtn = document.getElementById('get-all-parameters');
 
 function valueClickListener(ev) {
-	ipcRenderer.send('modify', JSON.stringify(ev.currentTarget.dataset));
-
+	//ipcRenderer.send('modify', JSON.stringify(ev.currentTarget.dataset));
+	ev.currentTarget.innerHTML = `<input value='${ev.currentTarget.dataset.value}'>`;
+	ev.currentTarget.removeEventListener('click', valueClickListener);
 
 	console.log(JSON.stringify(ev.currentTarget.dataset));
+
 }
 
 function createAndAppendListItem(list, innerText) {
