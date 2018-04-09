@@ -27,6 +27,7 @@ ipcRenderer.on('reload', (event, arg) => {
 });
 
 const getAllParamsBtn = document.getElementById('get-all-parameters');
+const addBtn = document.getElementById('add');
 
 function valueCancelClickListener() {
 	getAll();
@@ -133,6 +134,10 @@ function getAll() {
 
 getAllParamsBtn.addEventListener('click', () => {
 	getAll();
+});
+
+addBtn.addEventListener('click', () => {
+	ipcRenderer.send('modify');
 });
 
 getAll();

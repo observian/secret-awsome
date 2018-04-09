@@ -1,32 +1,46 @@
 import {
-	updateParameter
+	updateParameter,
+	types
 } from "./api/ssm";
 import {
 	ipcRenderer
 } from "electron";
+let jquery = require('jquery');
+let qs = require('query-string');
 
-let currentItem;
+function saveForm() {
+	let data = qs.parse(jquery(this).serialize());
+
+	return false;
+}
+
 
 ipcRenderer.on('open-message', (event, arg) => {
-	console.log(arg); // prints "pong"
+	let f = jquery('#region-form');
+	f[0].reset();
+	f.submit(saveForm);
+	// let form = document.getElementById('region-form');
 
-	currentItem = JSON.parse(arg);
-	document.getElementById('region').innerText = currentItem.region;
-	document.getElementById('name').innerText = currentItem.name;
-	document.getElementById('type').innerText = currentItem.type;
-	document.getElementById('value').value = currentItem.value;
+	// if (form.attachEvent) {
+	// 	form.attachEvent("submit", saveForm);
+	// } else {
+	// 	form.addEventListener("submit", saveForm);
+	// }
+	// document.getElementById('name').innerText = currentItem.name;
+	// document.getElementById('type').innerText = currentItem.type;
+	// document.getElementById('value').value = currentItem.value;
 });
 
-document.getElementById('save').addEventListener('click', () => {
-	currentItem.value = document.getElementById('value').value;
-	updateParameter(currentItem.name, currentItem.type, currentItem.value, currentItem.region)
-		.then(result => {
-			ipcRenderer.send('modify-save-complete', JSON.stringify(result));
-			console.log(JSON.stringify(result));
+// document.getElementById('save').addEventListener('click', () => {
+// 	currentItem.value = document.getElementById('value').value;
+// 	updateParameter(currentItem.name, currentItem.type, currentItem.value, currentItem.region)
+// 		.then(result => {
+// 			ipcRenderer.send('modify-save-complete', JSON.stringify(result));
+// 			console.log(JSON.stringify(result));
 
-		})
-		.catch(err => {
-			console.error(err, err.stack);
-		});
+// 		})
+// 		.catch(err => {
+// 			console.error(err, err.stack);
+// 		});
 
-});
+// });

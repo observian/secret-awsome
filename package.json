@@ -28,7 +28,9 @@
 		"aws-sdk": "2.220.1",
 		"bluebird": "3.5.1",
 		"electron-compile": "^6.4.2",
-		"electron-squirrel-startup": "^1.0.0"
+		"electron-squirrel-startup": "^1.0.0",
+		"jquery": "^3.3.1",
+		"query-string": "^6.0.0"
 	},
 	"devDependencies": {
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
