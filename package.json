@@ -38,7 +38,8 @@
 		"devtron": "1.4.0",
 		"electron-forge": "^5.1.1",
 		"electron-prebuilt-compile": "1.8.4",
-		"husky": "^0.14.3"
+		"husky": "^0.14.3",
+		"transpile": "^2.6.2"
 	},
 	"config": {
 		"forge": {
