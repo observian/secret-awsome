@@ -1,11 +1,12 @@
 import {
 	updateParameter,
-	getAllParameters,
+	getParameters,
 	getParameter
 } from "./api/ssm";
 import {
 	ipcRenderer
 } from "electron";
+let jquery = require('jquery');
 
 let allParams = [];
 
@@ -72,6 +73,10 @@ function valueClickListener(ev) {
 		});
 }
 
+function cloneClickListener(ev) {
+	ipcRenderer.send('modify', JSON.stringify(ev.data));
+}
+
 function createAndAppendListItem(list, innerText) {
 	let li = document.createElement('li');
 	li.innerText = innerText;
@@ -91,7 +96,11 @@ function createListObj(param) {
 	for (let i = 0; i < param.Parameters.length; i++) {
 		let paramUl = document.createElement('ul');
 		const item = param.Parameters[i];
-		createAndAppendListItem(paramUl, `${item.Name}`);
+		let nameItem = createAndAppendListItem(paramUl, `${item.Name}`);
+		let it = jquery(nameItem);
+		let cl = jquery('<span class="clickable"><i class="far fa-clone"></i></span>').click(item, cloneClickListener);
+
+		it.prepend(cl);
 
 		let infoUl = document.createElement('ul');
 		createAndAppendListItem(infoUl, `${item.Type}`);
@@ -131,7 +140,7 @@ function setParamList(params) {
 
 function getAll() {
 	loader.load();
-	return getAllParameters()
+	return getParameters()
 		.then(params => {
 			allParams = params;
 			setParamList(allParams);

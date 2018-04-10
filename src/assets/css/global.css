@@ -170,6 +170,7 @@ kbd {
 
 .clickable {
 	margin-left: 3px;
+	margin-right: 5px;
 	cursor: pointer;
 }
 

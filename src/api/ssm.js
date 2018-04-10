@@ -21,16 +21,18 @@ function getParameter(name, region, withDecryption) {
 			results.Region = region;
 			return results;
 		})
-		.catch(err => {
-			console.error(err, err.stack);
-			return [];
+		.catch(() => {
+			//console.error(err, err.stack);
+			return null;
 		});
 
 	return prom;
 }
 
-function getAllParameters() {
+function getParameters(path) {
 	let proms = [];
+
+	path = '/';
 
 	for (let i = 0; i < defaultRegions.regions.length; i++) {
 		const reg = defaultRegions.regions[i];
@@ -39,7 +41,7 @@ function getAllParameters() {
 		});
 
 		let params = {
-			Path: '/',
+			Path: path,
 			Recursive: true,
 			WithDecryption: false
 		};
@@ -59,6 +61,29 @@ function getAllParameters() {
 	}
 
 	return Promise.all(proms);
+}
+
+function getRegions(name) {
+	let proms = [];
+	let regions = [];
+
+	for (let i = 0; i < defaultRegions.regions.length; i++) {
+		let prom = getParameter(name, defaultRegions.regions[i].region, false);
+		proms.push(prom);
+	}
+
+	return Promise.all(proms)
+		.then(results => {
+			return results.filter(r => {
+				return r && r.Parameter;
+			});
+		})
+		.then(myvals => {
+			myvals.forEach((val) => {
+				regions.push(val.Region);
+			});
+			return regions;
+		});
 }
 
 function updateParameter(name, type, value, region) {
@@ -99,12 +124,13 @@ function updateParameters(name, type, value, regions) {
 }
 
 
-module.exports.getAllParameters = getAllParameters;
+module.exports.getParameters = getParameters;
 module.exports.getParameter = getParameter;
 module.exports.updateParameter = updateParameter;
 module.exports.updateParameters = updateParameters;
 module.exports.types = types;
 module.exports.defaultRegions = defaultRegions;
+module.exports.getRegions = getRegions;
 
 
 // {
