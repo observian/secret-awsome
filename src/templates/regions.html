@@ -1,16 +1,14 @@
 <template class='task-template'>
-	<div>
+	<section class='section is-shown'>
 		<form id='region-form' name='region-form'>
 			<fieldset>
+				<legend>Name</legend>
+				<div>
+					<input type="text" id="name" name="name">
+				</div>
+			</fieldset>
+			<fieldset id='region-fieldset'>
 				<legend>Regions</legend>
-				<div>
-					<input type="checkbox" id="us-east-1" name="region" value="us-east-1">
-					<label for="us-east-1">us-east-1</label>
-				</div>
-				<div>
-					<input type="checkbox" id="us-east-2" name="region" value="us-east-2">
-					<label for="us-east-2">us-east-2</label>
-				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Type</legend>
@@ -21,9 +19,14 @@
 						<option value="SecureString">SecureString</option>
 					</select>
 				</div>
-
+			</fieldset>
+			<fieldset>
+				<legend>Value</legend>
+				<div>
+					<input type="text" id="value" name="value">
+				</div>
 			</fieldset>
 			<button type="submit">Save</button>
 		</form>
-	</div>
+	</section>
 </template>
