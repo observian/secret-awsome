@@ -5,6 +5,30 @@ const Promise = require('bluebird');
 
 AWS.config.setPromisesDependency(Promise);
 
+function getParameter(name, region, withDecryption) {
+	const ssm = new AWS.SSM({
+		region: region
+	});
+
+	let params = {
+		Name: name,
+		WithDecryption: withDecryption
+	};
+
+	let prom = ssm.getParameter(params)
+		.promise()
+		.then(results => {
+			results.Region = region;
+			return results;
+		})
+		.catch(err => {
+			console.error(err, err.stack);
+			return [];
+		});
+
+	return prom;
+}
+
 function getAllParameters() {
 	let proms = [];
 
@@ -76,6 +100,7 @@ function updateParameters(name, type, value, regions) {
 
 
 module.exports.getAllParameters = getAllParameters;
+module.exports.getParameter = getParameter;
 module.exports.updateParameter = updateParameter;
 module.exports.updateParameters = updateParameters;
 module.exports.types = types;
