@@ -1,12 +1,23 @@
 import {
+	updateParameter,
 	getAllParameters
 } from "./api/ssm";
 import {
 	ipcRenderer
 } from "electron";
 
-
 let allParams = [];
+
+let loader = document.getElementById('load');
+loader.load = function () {
+	this.style.visibility = 'visible';
+	document.getElementById('main').setAttribute("disabled", "true");
+};
+
+loader.stop = function () {
+	this.style.visibility = 'hidden';
+	document.getElementById('main').setAttribute("disabled", "false");
+};
 
 ipcRenderer.on('reload', (event, arg) => {
 	getAll()
@@ -15,14 +26,39 @@ ipcRenderer.on('reload', (event, arg) => {
 		});
 });
 
-
 const getAllParamsBtn = document.getElementById('get-all-parameters');
+const addBtn = document.getElementById('add');
+
+function valueCancelClickListener() {
+	getAll();
+}
+
+function valueSaveClickListener(ev) {
+	loader.load();
+	ev.currentTarget.removeEventListener('click', valueSaveClickListener);
+	let dataset = ev.currentTarget.parentNode.dataset;
+	let value = ev.currentTarget.parentNode.childNodes[0].value;
+
+	updateParameter(dataset.name, dataset.type, value, dataset.region)
+		.then(() => {
+			getAll();
+		})
+		.catch(err => {
+			console.error(err, err.stack);
+		});
+
+}
 
 function valueClickListener(ev) {
-	ipcRenderer.send('modify', JSON.stringify(ev.currentTarget.dataset));
-
+	//ipcRenderer.send('modify', JSON.stringify(ev.currentTarget.dataset));
+	ev.currentTarget.innerHTML = `<input value='${ev.currentTarget.dataset.value}'><span class="clickable"><i class="far fa-save"></i></span><span class="clickable"><i class="fas fa-ban"></i></span>`;
+	ev.currentTarget.removeEventListener('click', valueClickListener);
+	ev.currentTarget.childNodes[0].select();
+	ev.currentTarget.childNodes[1].addEventListener('click', valueSaveClickListener);
+	ev.currentTarget.childNodes[2].addEventListener('click', valueCancelClickListener);
 
 	console.log(JSON.stringify(ev.currentTarget.dataset));
+
 }
 
 function createAndAppendListItem(list, innerText) {
@@ -82,6 +118,7 @@ function setParamList(params) {
 }
 
 function getAll() {
+	loader.load();
 	return getAllParameters()
 		.then(params => {
 			allParams = params;
@@ -89,11 +126,18 @@ function getAll() {
 		})
 		.catch(err => {
 			console.error(err, err.stack);
+		})
+		.finally(() => {
+			loader.stop();
 		});
 }
 
 getAllParamsBtn.addEventListener('click', () => {
 	getAll();
+});
+
+addBtn.addEventListener('click', () => {
+	ipcRenderer.send('modify');
 });
 
 getAll();

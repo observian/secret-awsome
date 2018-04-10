@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const defaultRegions = require('../helper/default-regions.json');
+const types = require('../helper/types.json');
 const Promise = require('bluebird');
 
 AWS.config.setPromisesDependency(Promise);
@@ -60,9 +61,25 @@ function updateParameter(name, type, value, region) {
 	return prom;
 }
 
+function updateParameters(name, type, value, regions) {
+	let proms = [];
+
+	for (let i = 0; i < regions.length; i++) {
+		const reg = regions[i];
+
+		let prom = updateParameter(name, type, value, reg);
+		proms.push(prom);
+	}
+
+	return Promise.all(proms);
+}
+
 
 module.exports.getAllParameters = getAllParameters;
 module.exports.updateParameter = updateParameter;
+module.exports.updateParameters = updateParameters;
+module.exports.types = types;
+module.exports.defaultRegions = defaultRegions;
 
 
 // {

@@ -1,0 +1,32 @@
+<template class='task-template'>
+	<section class='section is-shown'>
+		<form id='region-form' name='region-form'>
+			<fieldset>
+				<legend>Name</legend>
+				<div>
+					<input type="text" id="name" name="name">
+				</div>
+			</fieldset>
+			<fieldset id='region-fieldset'>
+				<legend>Regions</legend>
+			</fieldset>
+			<fieldset>
+				<legend>Type</legend>
+				<div>
+					<select id="parameter-type-region" name="type">
+						<option value="String" selected>String</option>
+						<option value="StringList">StringList</option>
+						<option value="SecureString">SecureString</option>
+					</select>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Value</legend>
+				<div>
+					<input type="text" id="value" name="value">
+				</div>
+			</fieldset>
+			<button type="submit">Save</button>
+		</form>
+	</section>
+</template>
