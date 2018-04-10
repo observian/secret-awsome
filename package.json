@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
 	"productName": "ObservianParameterManager",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Easily manage AWS SSM Parameter Store items across regions",
 	"main": "src/main.js",
 	"scripts": {
@@ -10,7 +10,9 @@
 		"debug": "electron . --debug",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"package": "electron-forge package",
-		"make": "electron-forge make"
+		"make": "electron-forge make",
+		"prepack": "check-for-leaks",
+		"prepush": "check-for-leaks"
 	},
 	"repository": {
 		"type": "git",
@@ -26,15 +28,20 @@
 		"aws-sdk": "2.220.1",
 		"bluebird": "3.5.1",
 		"electron-compile": "^6.4.2",
-		"electron-squirrel-startup": "^1.0.0"
+		"electron-squirrel-startup": "^1.0.0",
+		"jquery": "^3.3.1",
+		"query-string": "^6.0.0"
 	},
 	"devDependencies": {
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
 		"babel-preset-env": "^1.6.1",
 		"babel-preset-react": "^6.24.1",
+		"check-for-leaks": "^1.2.0",
 		"devtron": "1.4.0",
 		"electron-forge": "^5.1.1",
-		"electron-prebuilt-compile": "1.8.4"
+		"electron-prebuilt-compile": "1.8.4",
+		"husky": "^0.14.3",
+		"transpile": "^2.6.2"
 	},
 	"config": {
 		"forge": {
