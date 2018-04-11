@@ -2,10 +2,10 @@ import {
 	updateParameter,
 	getParameters,
 	getParameter
-} from "./api/ssm";
+} from '../api/ssm';
 import {
 	ipcRenderer
-} from "electron";
+} from 'electron';
 let jquery = require('jquery');
 
 let allParams = [];
@@ -13,18 +13,18 @@ let allParams = [];
 let loader = document.getElementById('load');
 loader.load = function () {
 	this.style.visibility = 'visible';
-	document.getElementById('main').setAttribute("disabled", "true");
+	document.getElementById('main').setAttribute('disabled', 'true');
 };
 
 loader.stop = function () {
 	this.style.visibility = 'hidden';
-	document.getElementById('main').setAttribute("disabled", "false");
+	document.getElementById('main').setAttribute('disabled', 'false');
 };
 
-ipcRenderer.on('reload', (event, arg) => {
+ipcRenderer.on('reload', () => {
 	getAll()
 		.then(() => {
-			ipcRenderer.send('index-refresh-complete', arg);
+			ipcRenderer.send('index-refresh-complete');
 		});
 });
 
@@ -66,7 +66,7 @@ function valueClickListener(ev) {
 			target.childNodes[2].addEventListener('click', valueCancelClickListener);
 		})
 		.catch(err => {
-			console.log(err, err.stack);
+			console.error(err, err.stack);
 		})
 		.finally(() => {
 			loader.stop();
@@ -74,7 +74,7 @@ function valueClickListener(ev) {
 }
 
 function cloneClickListener(ev) {
-	ipcRenderer.send('modify', JSON.stringify(ev.data));
+	ipcRenderer.send('modify-open', JSON.stringify(ev.data));
 }
 
 function createAndAppendListItem(list, innerText) {
@@ -121,7 +121,7 @@ function createListObj(param) {
 }
 
 function setParamList(params) {
-	let ul = document.getElementById("all-param-list");
+	let ul = document.getElementById('all-param-list');
 
 	for (let i = 0; i < ul.childNodes.length; i++) {
 		const node = ul.childNodes[i];
@@ -159,7 +159,7 @@ getAllParamsBtn.addEventListener('click', () => {
 });
 
 addBtn.addEventListener('click', () => {
-	ipcRenderer.send('modify');
+	ipcRenderer.send('modify-open');
 });
 
 getAll();

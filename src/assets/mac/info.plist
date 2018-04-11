@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>aws-ssm-parameter-manager</string>
+      </array>
+      <key>CFBundleURLName</key>
+      <string>Observian SSM Parameter Manager</string>
+    </dict>
+  </array>
+  <key>ObservianTeamID</key>
+  <string>CHANGETOOBSERVIANID</string>
+</dict>
+</plist>

@@ -1,30 +1,27 @@
 import {
-	updateParameter,
 	updateParameters,
-	getParameters,
-	types,
 	defaultRegions,
 	getRegions,
 	getParameter
-} from "./api/ssm";
+} from '../api/ssm';
 import {
 	ipcRenderer
-} from "electron";
-import Promise from "bluebird";
-import jquery from "jquery";
+} from 'electron';
+import Promise from 'bluebird';
+import jquery from 'jquery';
 import {
 	parse
-} from "query-string";
+} from 'query-string';
 
 let loader = document.getElementById('load');
 loader.load = function () {
 	this.style.visibility = 'visible';
-	document.getElementById('region-form').setAttribute("disabled", "true");
+	document.getElementById('region-form').setAttribute('disabled', 'true');
 };
 
 loader.stop = function () {
 	this.style.visibility = 'hidden';
-	document.getElementById('region-form').setAttribute("disabled", "false");
+	document.getElementById('region-form').setAttribute('disabled', 'false');
 };
 
 function saveForm() {
@@ -38,14 +35,9 @@ function saveForm() {
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
 			ipcRenderer.send('modify-save-complete', JSON.stringify(result));
-			console.log(JSON.stringify(result));
-
 		})
 		.catch(err => {
 			console.error(err, err.stack);
-		})
-		.finally(() => {
-			loader.stop();
 		});
 
 	return false;
