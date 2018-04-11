@@ -59,7 +59,7 @@ function valueClickListener(ev) {
 		.then(results => {
 			let target = document.querySelector(`[data-region='${results.Region}'][data-name='${results.Parameter.Name}'][data-type='${results.Parameter.Type}']`);
 
-			target.innerHTML = `<input value='${results.Parameter.Value}'><span class="clickable"><i class="far fa-save"></i></span><span class="clickable"><i class="fas fa-ban"></i></span>`;
+			target.innerHTML = `<input type="text" value='${results.Parameter.Value}'><span class="clickable"><i class="far fa-save"></i></span><span class="clickable"><i class="fas fa-ban"></i></span>`;
 			target.removeEventListener('click', valueClickListener);
 			target.childNodes[0].select();
 			target.childNodes[1].addEventListener('click', valueSaveClickListener);
@@ -96,6 +96,7 @@ function createListObj(param) {
 	for (let i = 0; i < param.Parameters.length; i++) {
 		let paramUl = document.createElement('ul');
 		const item = param.Parameters[i];
+		item.Region = param.Region;
 		let nameItem = createAndAppendListItem(paramUl, `${item.Name}`);
 		let it = jquery(nameItem);
 		let cl = jquery('<span class="clickable"><i class="far fa-clone"></i></span>').click(item, cloneClickListener);

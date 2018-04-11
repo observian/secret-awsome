@@ -4,7 +4,8 @@ import {
 	getParameters,
 	types,
 	defaultRegions,
-	getRegions
+	getRegions,
+	getParameter
 } from "./api/ssm";
 import {
 	ipcRenderer
@@ -29,6 +30,10 @@ loader.stop = function () {
 function saveForm() {
 	loader.load();
 	let data = parse(jquery(this).serialize());
+
+	if (!jquery.isArray(data.region)) {
+		data.region = [data.region];
+	}
 
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
@@ -58,6 +63,16 @@ function setValues(obj) {
 		let fs = jquery('#region-fieldset').empty();
 		fs.append('<legend>Regions</legend>');
 
+		for (let i = 0; i < defaultRegions.regions.length; i++) {
+			const reg = defaultRegions.regions[i];
+
+			fs.append(`<div>
+		<input type="checkbox" id="${reg.region}" name="region" value="${reg.region}">
+		<label for="${reg.region}">${reg.displayname} (${reg.region})</label>
+	</div>`);
+		}
+
+
 		jquery('#name').prop('readonly', false);
 		jquery('#parameter-type-region option').prop('disabled', false).prop('selected', false);
 
@@ -66,24 +81,25 @@ function setValues(obj) {
 			jquery('#name').prop('readonly', true);
 			jquery(`#parameter-type-region option[value="${obj.Type}"]`).prop('selected', true);
 			jquery('#parameter-type-region option:not(:selected)').prop('disabled', true);
-			jquery('#value').val(obj.Value);
 
-			return getRegions(obj.Name)
+			return getParameter(obj.Name, obj.Region, true)
+				.then((p) => {
+					return jquery('#value').val(p.Parameter.Value);
+				})
+				.then(() => {
+					return getRegions(obj.Name);
+				})
 				.then((results) => {
-					for (let i = 0; i < defaultRegions.regions.length; i++) {
-						const reg = defaultRegions.regions[i];
-
-						let isChecked = results.find((item) => {
-							return item === reg.region;
+					for (let i = 0; i < results.length; i++) {
+						jquery(`#${results[i]}`).prop('checked', true).click(function () {
+							this.checked = !this.checked;
 						});
-
-						fs.append(`<div>
-						<input type="checkbox" id="${reg.region}" name="region" value="${reg.region}" ${isChecked ? 'checked onclick="this.checked=!this.checked;"' : ''}>
-						<label for="${reg.region}">${reg.displayname} (${reg.region})</label>
-					</div>`);
 					}
 				});
+
 		}
+
+		return true;
 
 	});
 

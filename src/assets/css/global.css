@@ -240,3 +240,7 @@ kbd {
 		height: 5em;
 	}
 }
+
+input[type=text] {
+	width: 400px;
+}
