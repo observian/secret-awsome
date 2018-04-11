@@ -1,10 +1,12 @@
 import {
 	updateParameter,
-	getAllParameters
+	getParameters,
+	getParameter
 } from "./api/ssm";
 import {
 	ipcRenderer
 } from "electron";
+let jquery = require('jquery');
 
 let allParams = [];
 
@@ -50,15 +52,29 @@ function valueSaveClickListener(ev) {
 }
 
 function valueClickListener(ev) {
-	//ipcRenderer.send('modify', JSON.stringify(ev.currentTarget.dataset));
-	ev.currentTarget.innerHTML = `<input value='${ev.currentTarget.dataset.value}'><span class="clickable"><i class="far fa-save"></i></span><span class="clickable"><i class="fas fa-ban"></i></span>`;
-	ev.currentTarget.removeEventListener('click', valueClickListener);
-	ev.currentTarget.childNodes[0].select();
-	ev.currentTarget.childNodes[1].addEventListener('click', valueSaveClickListener);
-	ev.currentTarget.childNodes[2].addEventListener('click', valueCancelClickListener);
+	loader.load();
+	let dataset = ev.currentTarget.dataset;
 
-	console.log(JSON.stringify(ev.currentTarget.dataset));
+	getParameter(dataset.name, dataset.region, true)
+		.then(results => {
+			let target = document.querySelector(`[data-region='${results.Region}'][data-name='${results.Parameter.Name}'][data-type='${results.Parameter.Type}']`);
 
+			target.innerHTML = `<input type="text" value='${results.Parameter.Value}'><span class="clickable"><i class="far fa-save"></i></span><span class="clickable"><i class="fas fa-ban"></i></span>`;
+			target.removeEventListener('click', valueClickListener);
+			target.childNodes[0].select();
+			target.childNodes[1].addEventListener('click', valueSaveClickListener);
+			target.childNodes[2].addEventListener('click', valueCancelClickListener);
+		})
+		.catch(err => {
+			console.log(err, err.stack);
+		})
+		.finally(() => {
+			loader.stop();
+		});
+}
+
+function cloneClickListener(ev) {
+	ipcRenderer.send('modify', JSON.stringify(ev.data));
 }
 
 function createAndAppendListItem(list, innerText) {
@@ -80,15 +96,21 @@ function createListObj(param) {
 	for (let i = 0; i < param.Parameters.length; i++) {
 		let paramUl = document.createElement('ul');
 		const item = param.Parameters[i];
-		createAndAppendListItem(paramUl, `${item.Name}`);
+		item.Region = param.Region;
+		let nameItem = createAndAppendListItem(paramUl, `${item.Name}`);
+		let it = jquery(nameItem);
+		let cl = jquery('<span class="clickable"><i class="far fa-clone"></i></span>').click(item, cloneClickListener);
+
+		it.prepend(cl);
 
 		let infoUl = document.createElement('ul');
 		createAndAppendListItem(infoUl, `${item.Type}`);
-		let valueItem = createAndAppendListItem(infoUl, `${item.Value}`);
+		let dataValue = item.Type !== 'SecureString' ? item.Value : '';
+		let valueItem = createAndAppendListItem(infoUl, `${dataValue || '******'}`);
 		valueItem.setAttribute('data-region', param.Region);
 		valueItem.setAttribute('data-name', item.Name);
 		valueItem.setAttribute('data-type', item.Type);
-		valueItem.setAttribute('data-value', item.Value);
+		valueItem.setAttribute('data-value', dataValue);
 		valueItem.addEventListener('click', valueClickListener);
 
 		paramUl.appendChild(infoUl);
@@ -119,7 +141,7 @@ function setParamList(params) {
 
 function getAll() {
 	loader.load();
-	return getAllParameters()
+	return getParameters()
 		.then(params => {
 			allParams = params;
 			setParamList(allParams);

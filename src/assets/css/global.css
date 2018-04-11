@@ -170,6 +170,7 @@ kbd {
 
 .clickable {
 	margin-left: 3px;
+	margin-right: 5px;
 	cursor: pointer;
 }
 
@@ -238,4 +239,8 @@ kbd {
 		box-shadow: 0 -2em;
 		height: 5em;
 	}
+}
+
+input[type=text] {
+	width: 400px;
 }

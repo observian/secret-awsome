@@ -112,6 +112,7 @@ app.on('activate', () => {
 
 ipcMain.on('modify', (event, arg) => {
 	modifyWindow.webContents.send('open-message', arg);
+	modifyWindow.setTitle(arg ? 'Clone' : 'Add');
 	modifyWindow.show();
 	console.log(JSON.stringify(arg));
 });
