@@ -1,15 +1,16 @@
 const {
 	app,
-	BrowserWindow,
-	ipcMain
+	BrowserWindow
 } = require('electron');
 const path = require('path');
 const url = require('url');
+const glob = require('glob');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let indexWindow = {};
-let modifyWindow;
+let modifyWindow = {};
+
 const debug = /--debug|--inspect-brk/.test(process.argv[2]);
 
 function createIndexWindow(width, height, view) {
@@ -33,16 +34,6 @@ function createIndexWindow(width, height, view) {
 		require('devtron').install();
 	}
 
-	// mainWindow.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
-	// 	if (frameName === 'modal') {
-	// 		// open window as modal
-	// 		Object.assign(options, {
-	// 			modal: false,
-	// 			parent: mainWindow
-	// 		});
-	// 		event.newGuest = new BrowserWindow(options);
-	// 	}
-	// });
 
 	// Emitted when the window is closed.
 	indexWindow.on('closed', () => {
@@ -51,6 +42,8 @@ function createIndexWindow(width, height, view) {
 		// when you should delete the corresponding element.
 		indexWindow = null;
 	});
+
+	global.indexWindow = indexWindow;
 }
 
 function createModifyWindow(width, height, view) {
@@ -82,6 +75,8 @@ function createModifyWindow(width, height, view) {
 		ev.preventDefault();
 		modifyWindow.hide();
 	});
+
+	global.modifyWindow = modifyWindow;
 }
 
 
@@ -110,29 +105,14 @@ app.on('activate', () => {
 	}
 });
 
-ipcMain.on('modify', (event, arg) => {
-	modifyWindow.webContents.send('open-message', arg);
-	modifyWindow.setTitle(arg ? 'Clone' : 'Add');
-	modifyWindow.show();
-	console.log(JSON.stringify(arg));
-});
-
-ipcMain.on('main-message', (event, arg) => {
-	console.log(arg); // prints "ping"
-	event.sender.send('main-reply', 'pong');
-});
-
-ipcMain.on('modify-save-complete', (event, arg) => {
-	indexWindow.webContents.send('reload', arg);
-	console.log(arg);
-});
-
-ipcMain.on('index-refresh-complete', (event, arg) => {
-	modifyWindow.hide();
-	console.log(arg);
-});
-
-
-
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+// Require each JS file in the main-process dir
+function loadMain() {
+	const files = glob.sync(path.join(__dirname, 'main-process/**/*.js'));
+	files.forEach((file) => {
+		require(file);
+	});
+}
+
+loadMain();
