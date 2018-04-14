@@ -29,6 +29,7 @@
 	},
 	"homepage": "https://github.com/observian/aws-ssm-parameter-manager#readme",
 	"dependencies": {
+		"ag-grid": "^17.0.0",
 		"aws-sdk": "2.220.1",
 		"bluebird": "3.5.1",
 		"electron-compile": "^6.4.2",

@@ -169,8 +169,6 @@ kbd {
 }
 
 .clickable {
-	margin-left: 3px;
-	margin-right: 5px;
 	cursor: pointer;
 }
 
@@ -243,4 +241,9 @@ kbd {
 
 input[type=text] {
 	width: 400px;
+}
+
+.fa-edit .fa-clone {
+	margin-left: 3px;
+	margin-right: 5px;
 }
