@@ -69,26 +69,18 @@ function setValues(obj) {
 		jquery('#parameter-type-region option').prop('disabled', false).prop('selected', false);
 
 		if (obj) {
-			jquery('#name').val(obj.Name);
+			jquery('#name').val(obj.data.Name);
 			jquery('#name').prop('readonly', true);
-			jquery(`#parameter-type-region option[value="${obj.Type}"]`).prop('selected', true);
+			jquery(`#parameter-type-region option[value="${obj.data.Type}"]`).prop('selected', true);
 			jquery('#parameter-type-region option:not(:selected)').prop('disabled', true);
 
-			return getParameter(obj.Name, obj.Region, true)
-				.then((p) => {
-					return jquery('#value').val(p.Value);
-				})
-				.then(() => {
-					return getRegions(obj.Name);
-				})
-				.then((results) => {
-					for (let i = 0; i < results.length; i++) {
-						jquery(`#${results[i]}`).prop('checked', true).click(function () {
-							this.checked = !this.checked;
-						});
-					}
-				});
+			jquery('#value').val(obj.data.Value);
 
+			for (let i = 0; i < obj.selectedRegions.length; i++) {
+				jquery(`#${obj.selectedRegions[i]}`).prop('checked', true).click(function () {
+					this.checked = !this.checked;
+				});
+			}
 		}
 
 		return true;

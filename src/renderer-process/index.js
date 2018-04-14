@@ -32,7 +32,20 @@ ipcRenderer.on('reload', () => {
 const getAllParamsBtn = document.getElementById('get-all-parameters');
 const addBtn = document.getElementById('add');
 
-function cloneClickListener(data) {
+function cloneClickListener(params) {
+	let selectedRegions = [];
+
+	params.api.forEachNode(rowNode => {
+		if (rowNode.data.Name === params.data.Name) {
+			selectedRegions.push(rowNode.data.Region);
+		}
+	});
+
+	let data = {
+		data: params.data,
+		selectedRegions: selectedRegions
+	};
+
 	ipcRenderer.send('modify-open', JSON.stringify(data));
 }
 
@@ -70,8 +83,7 @@ addBtn.addEventListener('click', () => {
 
 let columnDefs = [{
 		headerName: 'Region',
-		field: 'Region',
-		sort: 'asc'
+		field: 'Region'
 	},
 	{
 		headerName: 'Name',
@@ -81,7 +93,7 @@ let columnDefs = [{
 				return params.value;
 			}
 
-			return '<span class="clickable"><i class="far fa-clone"></i></span>' + params.value;
+			return `<span class="clickable"><i class="far fa-clone"></i>${params.value}</span>`;
 		},
 	},
 	{
@@ -91,12 +103,16 @@ let columnDefs = [{
 	{
 		headerName: 'Value',
 		field: 'Value',
-		valueFormatter: function (params) {
-			if (!params.data || params.data.Type !== 'SecureString') {
+		cellRenderer: function (params) {
+			let val;
+
+			if (!params.data) {
 				return params.value;
 			}
 
-			return '******';
+			val = params.data.Type !== 'SecureString' ? params.value : '******';
+
+			return `<span class="clickable"><i class="far fa-edit"></i>${val}</span>`;
 		},
 		editable: true
 	},
@@ -122,10 +138,14 @@ let gridOptions = {
 	},
 	onCellClicked: function (params) {
 		if (params.colDef.field === 'Name') {
-			cloneClickListener(params.data);
+			cloneClickListener(params);
 		}
 	},
 	onCellValueChanged: function (params) {
+		if (params.oldValue === params.value) {
+			return;
+		}
+
 		updateParameter(params.data.Name, params.data.Type, params.data.Value, params.data.Region)
 			.then((newVersion) => {
 				params.data.Version = newVersion.Version;

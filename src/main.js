@@ -84,7 +84,7 @@ function createModifyWindow(width, height, view) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-	createIndexWindow(1024, 768, 'index.html');
+	createIndexWindow(1324, 768, 'index.html');
 	createModifyWindow(800, 600, 'modify.html');
 });
 
@@ -101,7 +101,7 @@ app.on('activate', () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (!indexWindow) {
-		createIndexWindow(1024, 768, 'index.html');
+		createIndexWindow(1324, 768, 'index.html');
 	}
 });
 

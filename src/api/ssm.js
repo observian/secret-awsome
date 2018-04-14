@@ -41,7 +41,7 @@ function getParameters(path) {
 		let params = {
 			Path: path,
 			Recursive: true,
-			WithDecryption: false
+			WithDecryption: true
 		};
 
 		let prom = ssm.getParametersByPath(params)
