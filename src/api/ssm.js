@@ -18,12 +18,10 @@ function getParameter(name, region, withDecryption) {
 	let prom = ssm.getParameter(params)
 		.promise()
 		.then(results => {
-			results.Region = region;
-			return results;
-		})
-		.catch(() => {
-			//console.error(err, err.stack);
-			return null;
+			let ret = results.Parameter;
+			ret.Region = region;
+
+			return ret;
 		});
 
 	return prom;
@@ -49,8 +47,15 @@ function getParameters(path) {
 		let prom = ssm.getParametersByPath(params)
 			.promise()
 			.then(results => {
-				results.Region = reg.region;
-				return results;
+				let ret = [];
+				if (results.Parameters) {
+					for (let i = 0; i < results.Parameters.length; i++) {
+						let item = results.Parameters[i];
+						item.Region = reg.region;
+						ret.push(item);
+					}
+				}
+				return ret;
 			})
 			.catch(err => {
 				console.error(err, err.stack);
@@ -60,7 +65,13 @@ function getParameters(path) {
 		proms.push(prom);
 	}
 
-	return Promise.all(proms);
+	let retProm = Promise.all(proms)
+		.then(nested => {
+			// Flatten nested array
+			return [].concat.apply([], nested);
+		});
+
+	return retProm;
 }
 
 function getRegions(name) {
@@ -75,7 +86,7 @@ function getRegions(name) {
 	return Promise.all(proms)
 		.then(results => {
 			return results.filter(r => {
-				return r && r.Parameter;
+				return r && r.Name;
 			});
 		})
 		.then(myvals => {
@@ -101,11 +112,7 @@ function updateParameter(name, type, value, region) {
 
 	let prom = ssm.putParameter(params)
 		.promise()
-		.then(results => results)
-		.catch(err => {
-			console.error(err, err.stack);
-			return [];
-		});
+		.then(results => results);
 
 	return prom;
 }

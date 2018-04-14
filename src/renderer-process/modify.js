@@ -76,7 +76,7 @@ function setValues(obj) {
 
 			return getParameter(obj.Name, obj.Region, true)
 				.then((p) => {
-					return jquery('#value').val(p.Parameter.Value);
+					return jquery('#value').val(p.Value);
 				})
 				.then(() => {
 					return getRegions(obj.Name);
