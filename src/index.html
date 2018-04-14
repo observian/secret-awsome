@@ -6,11 +6,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Observian SSM Parameter Store Manager</title>
-	<script defer src='assets/js/fontawesome-all.min.js'></script>
+	<script defer src='assets/lib/fontawesome-all.min.js'></script>
+	<!-- <script src="assets/lib/ag-grid-enterprise.js"></script> -->
+	<!-- <script src='../node_modules/ag-grid/dist/ag-grid.noStyle.js'></script> -->
+	<!-- <script defer src='../node_modules/ag-grid/dist/ag-grid.min.js'></script> -->
 	<link rel="stylesheet" href="assets/css/global.css">
 	<link rel="stylesheet" href="assets/css/nativize.css">
 	<link rel="stylesheet" href="assets/css/nav.css">
 	<link rel="stylesheet" href="assets/css/section.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham-dark.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/theme-blue.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-bootstrap.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-dark.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-fresh.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-material.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/theme-bootstrap.css">
 </head>
 
 <body>
@@ -21,14 +34,16 @@
 				<h1>Parameter Store Manager</h1>
 				<button id='get-all-parameters'>Get All</button>
 				<button id='add'>Add</button>
-				<ul id='all-param-list'></ul>
+				<input type="search" id="filter-text-box" placeholder="Filter..." />
+				<div id="myGrid" style="height:600px" class="ag-theme-balham"></div>
+				<!-- <ul id='all-param-list'></ul> -->
 			</div>
 		</section>
 	</main>
 </body>
 <script>
-	require('./helper/imports')
-	require('./index');
+	require('./assets/imports');
+	require('./renderer-process/index');
 </script>
 
 </html>

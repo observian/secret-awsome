@@ -1,30 +1,25 @@
 import {
-	updateParameter,
 	updateParameters,
-	getParameters,
-	types,
-	defaultRegions,
-	getRegions,
-	getParameter
-} from "./api/ssm";
+	defaultRegions
+} from '../api/ssm';
 import {
 	ipcRenderer
-} from "electron";
-import Promise from "bluebird";
-import jquery from "jquery";
+} from 'electron';
+import Promise from 'bluebird';
+import jquery from 'jquery';
 import {
 	parse
-} from "query-string";
+} from 'query-string';
 
 let loader = document.getElementById('load');
 loader.load = function () {
 	this.style.visibility = 'visible';
-	document.getElementById('region-form').setAttribute("disabled", "true");
+	document.getElementById('region-form').setAttribute('disabled', 'true');
 };
 
 loader.stop = function () {
 	this.style.visibility = 'hidden';
-	document.getElementById('region-form').setAttribute("disabled", "false");
+	document.getElementById('region-form').setAttribute('disabled', 'false');
 };
 
 function saveForm() {
@@ -38,14 +33,9 @@ function saveForm() {
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
 			ipcRenderer.send('modify-save-complete', JSON.stringify(result));
-			console.log(JSON.stringify(result));
-
 		})
 		.catch(err => {
 			console.error(err, err.stack);
-		})
-		.finally(() => {
-			loader.stop();
 		});
 
 	return false;
@@ -77,26 +67,18 @@ function setValues(obj) {
 		jquery('#parameter-type-region option').prop('disabled', false).prop('selected', false);
 
 		if (obj) {
-			jquery('#name').val(obj.Name);
+			jquery('#name').val(obj.data.Name);
 			jquery('#name').prop('readonly', true);
-			jquery(`#parameter-type-region option[value="${obj.Type}"]`).prop('selected', true);
+			jquery(`#parameter-type-region option[value="${obj.data.Type}"]`).prop('selected', true);
 			jquery('#parameter-type-region option:not(:selected)').prop('disabled', true);
 
-			return getParameter(obj.Name, obj.Region, true)
-				.then((p) => {
-					return jquery('#value').val(p.Parameter.Value);
-				})
-				.then(() => {
-					return getRegions(obj.Name);
-				})
-				.then((results) => {
-					for (let i = 0; i < results.length; i++) {
-						jquery(`#${results[i]}`).prop('checked', true).click(function () {
-							this.checked = !this.checked;
-						});
-					}
-				});
+			jquery('#value').val(obj.data.Value);
 
+			for (let i = 0; i < obj.selectedRegions.length; i++) {
+				jquery(`#${obj.selectedRegions[i]}`).prop('checked', true).click(function () {
+					this.checked = !this.checked;
+				});
+			}
 		}
 
 		return true;
