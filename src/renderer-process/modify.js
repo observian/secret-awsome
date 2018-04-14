@@ -1,8 +1,6 @@
 import {
 	updateParameters,
-	defaultRegions,
-	getRegions,
-	getParameter
+	defaultRegions
 } from '../api/ssm';
 import {
 	ipcRenderer
