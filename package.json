@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
-	"productName": "ObservianParameterManager",
-	"version": "0.5.0-",
+	"productName": "Parameter Store Manager",
+	"version": "0.5.1",
 	"description": "Easily manage AWS SSM Parameter Store items across regions",
 	"main": "src/main.js",
 	"scripts": {
