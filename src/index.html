@@ -6,10 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Observian SSM Parameter Store Manager</title>
-	<script defer src='assets/lib/fontawesome-all.min.js'></script>
-	<!-- <script src="assets/lib/ag-grid-enterprise.js"></script> -->
-	<!-- <script src='../node_modules/ag-grid/dist/ag-grid.noStyle.js'></script> -->
-	<!-- <script defer src='../node_modules/ag-grid/dist/ag-grid.min.js'></script> -->
 	<link rel="stylesheet" href="assets/css/global.css">
 	<link rel="stylesheet" href="assets/css/nativize.css">
 	<link rel="stylesheet" href="assets/css/nav.css">
@@ -17,6 +13,7 @@
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
+	<script defer src='assets/lib/fontawesome-all.min.js'></script>
 </head>
 
 <body>
@@ -24,10 +21,10 @@
 		<div id='load' class='loader'></div>
 		<section class='section is-shown'>
 			<div id='main' class='section-wrapper'>
-				<h1>Observian Parameter Manager</h1>
-				<button id='get-all-parameters'>Refresh</button>
-				<button id='add'>Add</button>
-				<input type="search" id="filter-text-box" placeholder="Filter..." />
+				<button id='get-all-parameters' class='interact'>Refresh</button>
+				<button id='add' class='interact'>Add</button>
+				<button id='delete' class='interact'>Delete</button>
+				<input type="search" id="filter-text-box" class='interact' placeholder="Filter..." />
 				<div id="myGrid" style="height:600px" class="ag-theme-balham"></div>
 			</div>
 		</section>
