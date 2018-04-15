@@ -130,10 +130,44 @@ function updateParameters(name, type, value, regions) {
 	return Promise.all(proms);
 }
 
+function deleteParameters(parameters) {
+	let retProm = Promise.try(() => {
+		let regionMap = {};
+		let proms = [];
+
+		// Separate parameter names into regions
+		parameters.forEach(p => {
+			if (!regionMap[p.Region]) {
+				regionMap[p.Region] = [];
+			}
+
+			regionMap[p.Region].push(p.Name);
+		});
+
+		Object.keys(regionMap).forEach(region => {
+			const ssm = new AWS.SSM({
+				region: region
+			});
+
+			let prom = ssm.deleteParameters({
+				Names: regionMap[region]
+			}).promise();
+
+			proms.push(prom);
+		});
+
+		return Promise.all(proms);
+
+	});
+
+	return retProm;
+}
+
 module.exports.getParameters = getParameters;
 module.exports.getParameter = getParameter;
 module.exports.updateParameter = updateParameter;
 module.exports.updateParameters = updateParameters;
+module.exports.deleteParameters = deleteParameters;
 module.exports.types = types;
 module.exports.defaultRegions = defaultRegions;
 module.exports.getRegions = getRegions;

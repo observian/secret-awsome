@@ -1,6 +1,7 @@
 import {
 	updateParameter,
-	getParameters
+	getParameters,
+	deleteParameters
 } from '../api/ssm';
 import {
 	ipcRenderer
@@ -14,12 +15,12 @@ const {
 let loader = document.getElementById('load');
 loader.load = function () {
 	this.style.visibility = 'visible';
-	document.getElementById('main').setAttribute('disabled', 'true');
+	jquery('.interact').prop('disabled', true);
 };
 
 loader.stop = function () {
 	this.style.visibility = 'hidden';
-	document.getElementById('main').setAttribute('disabled', 'false');
+	jquery('.interact').prop('disabled', false);
 };
 
 ipcRenderer.on('reload', () => {
@@ -31,6 +32,7 @@ ipcRenderer.on('reload', () => {
 
 const getAllParamsBtn = document.getElementById('get-all-parameters');
 const addBtn = document.getElementById('add');
+const deleteBtn = document.getElementById('delete');
 
 function cloneClickListener(params) {
 	let selectedRegions = [];
@@ -73,6 +75,29 @@ function onFilterTextBoxChanged() {
 	gridOptions.api.setQuickFilter(document.getElementById('filter-text-box').value);
 }
 
+deleteBtn.addEventListener('click', () => {
+	let selectedRows = gridOptions.api.getSelectedRows();
+
+	if (!selectedRows || selectedRows.length <= 0) {
+		return;
+	}
+
+	loader.load();
+	deleteBtn.disabled = true;
+	deleteParameters(selectedRows)
+		.then(() => {
+			gridOptions.api.updateRowData({
+				remove: selectedRows
+			});
+		})
+		.catch(err => {
+			dialog.showErrorBox('Delete Failed', err.message);
+		})
+		.finally(() => {
+			loader.stop();
+		});
+});
+
 getAllParamsBtn.addEventListener('click', () => {
 	getAll();
 });
@@ -83,7 +108,8 @@ addBtn.addEventListener('click', () => {
 
 let columnDefs = [{
 		headerName: 'Region',
-		field: 'Region'
+		field: 'Region',
+		checkboxSelection: true
 	},
 	{
 		headerName: 'Name',
@@ -130,6 +156,7 @@ let gridOptions = {
 	enableColResize: true,
 	enableSorting: true,
 	singleClickEdit: true,
+	rowSelection: 'multiple',
 	onGridReady: function (params) {
 		params.columnApi.autoSizeAllColumns();
 	},

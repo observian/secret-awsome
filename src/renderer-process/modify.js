@@ -14,12 +14,12 @@ import {
 let loader = document.getElementById('load');
 loader.load = function () {
 	this.style.visibility = 'visible';
-	document.getElementById('region-form').setAttribute('disabled', 'true');
+	jquery('#region-form>button').prop('disabled', true);
 };
 
 loader.stop = function () {
 	this.style.visibility = 'hidden';
-	document.getElementById('region-form').setAttribute('disabled', 'false');
+	jquery('#region-form>button').prop('disabled', false);
 };
 
 function saveForm() {

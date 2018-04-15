@@ -189,6 +189,7 @@ kbd {
 	margin: 88px auto;
 	position: relative;
 	font-size: 11px;
+	z-index: 1;
 	-webkit-transform: translateZ(0);
 	-ms-transform: translateZ(0);
 	transform: translateZ(0);
