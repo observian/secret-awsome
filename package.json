@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
 	"productName": "Parameters",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "Easily manage AWS SSM Parameter Store items across regions",
 	"main": "src/main.js",
 	"scripts": {

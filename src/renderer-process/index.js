@@ -85,7 +85,7 @@ deleteBtn.addEventListener('click', () => {
 	loader.load();
 	deleteBtn.disabled = true;
 	deleteParameters(selectedRows)
-		.then(deleted => {
+		.then(() => {
 			gridOptions.api.updateRowData({
 				remove: selectedRows
 			});
