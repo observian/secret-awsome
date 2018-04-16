@@ -109,10 +109,7 @@ function updateParameter(name, type, value, region) {
 		region: region
 	});
 
-
-	let prom = ssm.putParameter(params)
-		.promise()
-		.then(results => results);
+	let prom = ssm.putParameter(params).promise();
 
 	return prom;
 }
