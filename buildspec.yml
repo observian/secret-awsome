@@ -1,0 +1,29 @@
+version: 0.2
+
+# env:
+#   variables:
+#     key: "value"
+#     key: "value"
+#   parameter-store:
+#     key: "value"
+#     key: "value"
+
+phases:
+  install:
+    commands:
+      - npm install electron-forge -g
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+      - electron-forge make
+artifacts:
+  files:
+    - 'make/*'
+  # discard-paths: yes
+  base-directory: out
+# cache:
+#   paths:
+#     - path
+#     - path
