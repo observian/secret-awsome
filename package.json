@@ -54,7 +54,7 @@
 					"squirrel"
 				],
 				"darwin": [
-					"zip"
+					"zip", "dmg"
 				],
 				"linux": [
 					"deb",
@@ -62,7 +62,9 @@
 				]
 			},
 			"electronPackagerConfig": {
-				"packageManager": "npm"
+				"packageManager": "npm",
+				"appBundleId": "A525J3CKM8.com.github.aws-ssm-parameter-manager",
+				"osxSign": true
 			},
 			"electronWinstallerConfig": {
 				"name": "aws_ssm_parameter_manager"
