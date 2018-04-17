@@ -21,7 +21,7 @@ phases:
 artifacts:
   files:
     - 'make/*'
-  # discard-paths: yes
+  discard-paths: yes
   base-directory: out
 # cache:
 #   paths:
