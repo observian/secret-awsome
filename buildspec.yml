@@ -11,6 +11,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - apt-get install -y rpm
       - npm install electron-forge -g
   pre_build:
     commands:
