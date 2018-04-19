@@ -14,7 +14,7 @@ phases:
       - npm install
   build:
     commands:
-      - electron-forge publish --auth-token=$GH_TOKEN
+      - electron-forge make
 artifacts:
   files:
     - 'make/*'
