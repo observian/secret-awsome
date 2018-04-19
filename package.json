@@ -57,8 +57,7 @@
 					"zip", "dmg"
 				],
 				"linux": [
-					"deb",
-					"rpm"
+					"flatpak"
 				]
 			},
 			"electronPackagerConfig": {

@@ -9,13 +9,10 @@ version: 0.2
 #     key: "value"
 
 phases:
-  install:
-    commands:
-      - apt-get update
-      - apt-get install -y software-properties-common
-      - add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
-      - apt-get install -y rpm
-      - npm install electron-forge -g
+  # install:
+  #   commands:
+      # - apt-get install -y flatpak
+      # - npm install electron-forge -g
   pre_build:
     commands:
       - npm install
