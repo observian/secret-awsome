@@ -67,9 +67,14 @@
 				"osxSign": true
 			},
 			"electronWinstallerConfig": {
-				"name": "aws_ssm_parameter_manager"
+				"name": "Parameters"
 			},
-			"electronInstallerDebian": {},
+			"electronInstallerDebian": {
+				"name": "Parameters"
+			},
+			"electronInstallerFlatpak": {
+				"name": "Parameters"
+			},
 			"electronInstallerRedhat": {},
 			"github_repository": {
 				"owner": "observian",

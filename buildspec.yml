@@ -1,12 +1,8 @@
 version: 0.2
 
-# env:
-#   variables:
-#     key: "value"
-#     key: "value"
-#   parameter-store:
-#     key: "value"
-#     key: "value"
+env:
+  parameter-store:
+    TOKEN: "/parameter-manager/prod/githubtoken"
 
 phases:
   # install:
@@ -18,7 +14,7 @@ phases:
       - npm install
   build:
     commands:
-      - electron-forge make
+      - GITHUB_TOKEN=$TOKEN electron-forge publish
 artifacts:
   files:
     - 'make/*'
