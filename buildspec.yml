@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   parameter-store:
-    TOKEN: "/parameter-manager/prod/githubtoken"
+    GH_TOKEN: "/parameter-manager/prod/githubtoken"
 
 phases:
   # install:
@@ -14,7 +14,7 @@ phases:
       - npm install
   build:
     commands:
-      - GITHUB_TOKEN=$TOKEN electron-forge publish
+      - electron-forge publish --auth-token=$GH_TOKEN
 artifacts:
   files:
     - 'make/*'
