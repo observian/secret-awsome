@@ -54,7 +54,8 @@
 					"squirrel"
 				],
 				"darwin": [
-					"zip", "dmg"
+					"zip",
+					"dmg"
 				],
 				"linux": [
 					"deb",
