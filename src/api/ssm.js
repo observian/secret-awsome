@@ -27,6 +27,50 @@ function getParameter(name, region, withDecryption) {
 	return prom;
 }
 
+function recursiveGet(path, region) {
+	let values = [];
+
+	const ssm = new AWS.SSM({
+		region: region
+	});
+
+	let params = {
+		Path: path,
+		Recursive: true,
+		WithDecryption: true
+	};
+
+	// Recursive call to getParametersByPath. Recursion continues until NextToken undefined
+	function innerget() {
+		return ssm.getParametersByPath(params)
+			.promise()
+			.then(results => {
+				params.NextToken = results.NextToken;
+				let ret = [];
+				if (results.Parameters) {
+					for (let i = 0; i < results.Parameters.length; i++) {
+						let item = results.Parameters[i];
+						item.Region = region;
+						ret.push(item);
+					}
+
+					values.push(...ret);
+
+					if (!params.NextToken) {
+						return values;
+					}
+				}
+				return innerget();
+			})
+			.catch(err => {
+				console.error(err, err.stack);
+				return values;
+			})
+	}
+
+	return Promise.try(innerget);
+}
+
 function getParameters(path) {
 	let proms = [];
 
@@ -34,33 +78,8 @@ function getParameters(path) {
 
 	for (let i = 0; i < defaultRegions.regions.length; i++) {
 		const reg = defaultRegions.regions[i];
-		const ssm = new AWS.SSM({
-			region: reg.region
-		});
 
-		let params = {
-			Path: path,
-			Recursive: true,
-			WithDecryption: true
-		};
-
-		let prom = ssm.getParametersByPath(params)
-			.promise()
-			.then(results => {
-				let ret = [];
-				if (results.Parameters) {
-					for (let i = 0; i < results.Parameters.length; i++) {
-						let item = results.Parameters[i];
-						item.Region = reg.region;
-						ret.push(item);
-					}
-				}
-				return ret;
-			})
-			.catch(err => {
-				console.error(err, err.stack);
-				return [];
-			});
+		let prom = recursiveGet(path, reg.region);
 
 		proms.push(prom);
 	}
