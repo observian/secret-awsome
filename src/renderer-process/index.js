@@ -1,8 +1,12 @@
 import {
 	updateParameter,
 	getParameters,
-	deleteParameters
+	deleteParameters,
+	setCredentials
 } from '../api/ssm';
+
+const profile = require('../api/profile');
+
 import {
 	ipcRenderer
 } from 'electron';
@@ -33,6 +37,7 @@ ipcRenderer.on('reload', () => {
 const getAllParamsBtn = document.getElementById('get-all-parameters');
 const addBtn = document.getElementById('add');
 const deleteBtn = document.getElementById('delete');
+const profilesSelect = document.getElementById('profiles');
 
 function cloneClickListener(params) {
 	let selectedRegions = [];
@@ -196,4 +201,31 @@ let eGridDiv = document.querySelector('#myGrid');
 // create the grid passing in the div to use together with the columns & data we want to use
 new agGrid.Grid(eGridDiv, gridOptions);
 
-getAll();
+profile.getProfiles()
+	.then(lines => {
+		for (let i = 0; i < lines.length; i++) {
+			const profile = lines[i];
+			profilesSelect.options[profilesSelect.options.length] = new Option(profile, profile);
+		}
+
+		let jProf = jquery(profilesSelect);
+
+		jProf.change(function () {
+			let selectedVal = this.value;
+			setCredentials(selectedVal);
+			getAll();
+		});
+
+		setCredentials(jProf.val());
+		getAll();
+	})
+	.catch(err => {
+		loader.stop();
+		getAllParamsBtn.disabled = true;
+		addBtn.disabled = true;
+		deleteBtn.disabled = true;
+		profilesSelect.disabled = true;
+		gridOptions.api.setRowData([]);
+
+		dialog.showErrorBox(err, 'No AWS configuration file found');
+	});

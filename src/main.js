@@ -36,13 +36,13 @@ function createIndexWindow(width, height, view) {
 		require('devtron').install();
 	}
 
-
 	// Emitted when the window is closed.
 	indexWindow.on('closed', () => {
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		indexWindow = null;
+		modifyWindow = null;
 	});
 
 	global.indexWindow = indexWindow;
@@ -140,11 +140,13 @@ function handleSquirrelEvent() {
 	const exeName = path.basename(process.execPath);
 
 	const spawn = function (command, args) {
-		let spawnedProcess, error;
+		let spawnedProcess;
 
 		try {
-			spawnedProcess = ChildProcess.spawn(command, args, { detached: true });
-		} catch (error) { }
+			spawnedProcess = ChildProcess.spawn(command, args, {
+				detached: true
+			});
+		} catch (error) {}
 
 		return spawnedProcess;
 	};

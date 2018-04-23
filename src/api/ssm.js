@@ -65,7 +65,7 @@ function recursiveGet(path, region) {
 			.catch(err => {
 				console.error(err, err.stack);
 				return values;
-			})
+			});
 	}
 
 	return Promise.try(innerget);
@@ -179,6 +179,14 @@ function deleteParameters(parameters) {
 	return retProm;
 }
 
+function setCredentials(profileName) {
+	let credentials = new AWS.SharedIniFileCredentials({
+		profile: profileName
+	});
+
+	AWS.config.credentials = credentials;
+}
+
 module.exports.getParameters = getParameters;
 module.exports.getParameter = getParameter;
 module.exports.updateParameter = updateParameter;
@@ -187,3 +195,4 @@ module.exports.deleteParameters = deleteParameters;
 module.exports.types = types;
 module.exports.defaultRegions = defaultRegions;
 module.exports.getRegions = getRegions;
+module.exports.setCredentials = setCredentials;
