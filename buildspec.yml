@@ -1,0 +1,26 @@
+version: 0.2
+
+env:
+  parameter-store:
+    GH_TOKEN: "/parameter-manager/prod/githubtoken"
+
+phases:
+  # install:
+  #   commands:
+      # - apt-get install -y flatpak
+      # - npm install electron-forge -g
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+      - electron-forge make
+artifacts:
+  files:
+    - 'make/*'
+  discard-paths: yes
+  base-directory: out
+# cache:
+#   paths:
+#     - path
+#     - path

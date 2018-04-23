@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
 	"productName": "Parameters",
-	"version": "0.5.3",
+	"version": "0.5.4",
 	"description": "Easily manage AWS SSM Parameter Store items across regions",
 	"main": "src/main.js",
 	"scripts": {
@@ -54,20 +54,28 @@
 					"squirrel"
 				],
 				"darwin": [
-					"zip"
+					"zip",
+					"dmg"
 				],
 				"linux": [
 					"deb",
-					"rpm"
+					"flatpak"
 				]
 			},
 			"electronPackagerConfig": {
-				"packageManager": "npm"
+				"packageManager": "npm",
+				"appBundleId": "A525J3CKM8.com.github.aws-ssm-parameter-manager",
+				"osxSign": true
 			},
 			"electronWinstallerConfig": {
-				"name": "aws_ssm_parameter_manager"
+				"name": "Parameters"
 			},
-			"electronInstallerDebian": {},
+			"electronInstallerDebian": {
+				"name": "Parameters"
+			},
+			"electronInstallerFlatpak": {
+				"name": "Parameters"
+			},
 			"electronInstallerRedhat": {},
 			"github_repository": {
 				"owner": "observian",
