@@ -43,6 +43,7 @@ function createIndexWindow(width, height, view) {
 		// when you should delete the corresponding element.
 		indexWindow = null;
 		modifyWindow = null;
+		profileWindow = null;
 	});
 
 	global.indexWindow = indexWindow;
@@ -81,12 +82,49 @@ function createModifyWindow(width, height, view) {
 	global.modifyWindow = modifyWindow;
 }
 
+
+let profileWindow = null;
+
+function createProfileWindow(width, height, view) {
+	profileWindow = new BrowserWindow({
+		width: width,
+		height: height,
+		parent: indexWindow,
+		modal: false,
+		show: false
+	});
+
+	// and load the index.html of the app.
+	profileWindow.loadURL(url.format({
+		pathname: path.join(__dirname, view),
+		protocol: 'file:',
+		slashes: true
+	}));
+
+	// Launch fullscreen with DevTools open, usage: npm run debug
+	if (debug) {
+		profileWindow.webContents.openDevTools();
+		//mainWindow.maximize();
+		require('devtron').install();
+	}
+
+	// Emitted when the window is closed.
+	profileWindow.on('close', ev => {
+		ev.preventDefault();
+		profileWindow.hide();
+	});
+
+	global.profileWindow = profileWindow;
+}
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
 	createIndexWindow(1324, 768, 'index.html');
 	createModifyWindow(800, 600, 'modify.html');
+	createProfileWindow(800, 600, 'manage-profiles.html');
 });
 
 // Quit when all windows are closed.

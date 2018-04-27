@@ -36,6 +36,7 @@
 		"electron-squirrel-startup": "^1.0.0",
 		"glob": "^7.1.2",
 		"jquery": "^3.3.1",
+		"line-by-line": "^0.1.6",
 		"query-string": "^6.0.0"
 	},
 	"devDependencies": {
