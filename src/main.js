@@ -124,7 +124,7 @@ function createProfileWindow(width, height, view) {
 app.on('ready', () => {
 	createIndexWindow(1324, 768, 'index.html');
 	createModifyWindow(800, 600, 'modify.html');
-	createProfileWindow(800, 600, 'manage-profiles.html');
+	createProfileWindow(840, 350, 'manage-profiles.html');
 });
 
 // Quit when all windows are closed.

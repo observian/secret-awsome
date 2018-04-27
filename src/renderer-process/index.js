@@ -33,9 +33,15 @@ ipcRenderer.on('reload', () => {
 
 function loadAll() {
 	loadProfiles()
-		.then(getAllParameters)
-		.then(() => {
-			ipcRenderer.send('index-reload-complete');
+		.then(profilesLoaded => {
+			if (profilesLoaded) {
+				getAllParameters()
+					.then(() => {
+						ipcRenderer.send('index-reload-complete');
+					});
+			} else {
+				ipcRenderer.send('manage-profiles-open');
+			}
 		});
 }
 
@@ -209,6 +215,11 @@ function loadProfiles() {
 	return profile.getProfiles()
 		.then(profiles => {
 			profilesSelect.options.length = 0;
+			if (!profiles || profiles.length === 0) {
+				loader.stop();
+				return false;
+			}
+
 			for (let i = 0; i < profiles.length; i++) {
 				const profile = profiles[i];
 				profilesSelect.options[profilesSelect.options.length] = new Option(profile.name, profile.name);
@@ -222,8 +233,10 @@ function loadProfiles() {
 			});
 
 			setCredentials(jProf.val());
+
+			return true;
 		})
-		.catch(err => {
+		.catch(() => {
 			loader.stop();
 			getAllParamsBtn.disabled = true;
 			addBtn.disabled = true;
@@ -231,7 +244,7 @@ function loadProfiles() {
 			profilesSelect.disabled = true;
 			gridOptions.api.setRowData([]);
 
-			dialog.showErrorBox(err, 'No AWS configuration file found');
+			return false;
 		});
 }
 

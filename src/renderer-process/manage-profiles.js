@@ -35,12 +35,28 @@ function getAllProfiles() {
 
 saveProfilesBtn.addEventListener('click', () => {
 	let profiles = [];
-	gridOptions.api.forEachNode(node => {
-		profiles.push(node.data);
+	gridOptions.api.stopEditing();
+
+	let opt = {
+		type: 'question',
+		buttons: ['Cancel', 'OK'],
+		defaultId: 1,
+		title: 'Overwrite Credentials File?',
+		message: 'Are you sure you wish to overwrite the AWS credentials file?',
+		cancelId: 0
+	};
+
+	dialog.showMessageBox(opt, id => {
+		if (id === 1) {
+			gridOptions.api.forEachNode(node => {
+				profiles.push(node.data);
+			});
+			saveProfiles(profiles);
+			ipcRenderer.send('profile-done');
+			ipcRenderer.send('reload-index');
+		}
 	});
-	saveProfiles(profiles);
-	ipcRenderer.send('profile-done');
-	ipcRenderer.send('reload-index');
+
 });
 
 deleteBtn.addEventListener('click', () => {
@@ -69,6 +85,7 @@ addBtn.addEventListener('click', () => {
 let columnDefs = [{
 		headerName: 'Name',
 		field: 'name',
+		minWidth: 150,
 		checkboxSelection: true,
 		cellRenderer: function (params) {
 			if (!params.data) {
@@ -82,6 +99,7 @@ let columnDefs = [{
 	{
 		headerName: 'Access Key',
 		field: 'aws_access_key_id',
+		minWidth: 200,
 		cellRenderer: function (params) {
 			if (!params.data) {
 				return params.value;
@@ -94,15 +112,48 @@ let columnDefs = [{
 	{
 		headerName: 'Secret Key',
 		field: 'aws_secret_access_key',
+		minWidth: 280,
 		cellRenderer: function (params) {
 			if (!params.data) {
 				return params.value;
 			}
 
-			return '<span class="clickable"><i class="far fa-edit"></i>******</span>';
+			let val = '******';
+
+			if (!params.value) {
+				val = '';
+			}
+
+			return `<span class="clickable"><i class="far fa-edit"></i>${val}</span>`;
+		},
+		editable: true
+	},
+	{
+		headerName: 'Region*',
+		field: 'region',
+		minWidth: 110,
+		cellRenderer: function (params) {
+			if (!params.data) {
+				return params.value;
+			}
+
+			return `<span class="clickable"><i class="far fa-edit"></i>${params.value || ''}</span>`;
+		},
+		editable: true
+	},
+	{
+		headerName: 'Output*',
+		field: 'output',
+		cellRenderer: function (params) {
+			if (!params.data) {
+				return params.value;
+			}
+
+			return `<span class="clickable"><i class="far fa-edit"></i>${params.value || ''}</span>`;
 		},
 		editable: true
 	}
+
 ];
 
 let gridOptions = {

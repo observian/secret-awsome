@@ -1,4 +1,7 @@
 const Promise = require('bluebird');
+const fs = require('fs');
+Promise.promisifyAll(fs);
+
 const os = require('os');
 const Reader = require('line-by-line');
 
@@ -41,14 +44,10 @@ function getProfiles() {
 		});
 
 		lr.on('end', function () {
-			if (!currentProfile) {
-				reject(`No valid AWS Profiles found at "${getFilePath()}"`);
-			} else {
-				if (currentProfile) {
-					profiles.push(currentProfile);
-				}
-				resolve(profiles);
+			if (currentProfile) {
+				profiles.push(currentProfile);
 			}
+			resolve(profiles);
 		});
 
 	});
@@ -56,7 +55,23 @@ function getProfiles() {
 }
 
 function saveProfiles(data) {
+	let lines = [];
+	for (let i = 0; i < data.length; i++) {
+		const profile = data[i];
 
+		lines.push(`[${profile.name}]`);
+		lines.push(`aws_access_key_id=${profile.aws_access_key_id}`);
+		lines.push(`aws_secret_access_key=${profile.aws_secret_access_key}`);
+		if (profile.region) {
+			lines.push(`region=${profile.region}`);
+		}
+		if (profile.output) {
+			lines.push(`output=${profile.output}`);
+		}
+		lines.push('');
+	}
+
+	return fs.writeFileAsync(getFilePath(), lines.join('\n'));
 }
 
 module.exports.getProfiles = getProfiles;
