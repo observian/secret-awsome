@@ -37,6 +37,13 @@ let template = [{
 }, {
 	label: 'View',
 	submenu: [{
+		label: 'Manage Profiles',
+		accelerator: 'CmdOrCtrl+Shift+P',
+		click: () => {
+			global.profileWindow.webContents.send('open-message');
+			global.profileWindow.show();
+		}
+	}, {
 		label: 'Reload',
 		accelerator: 'CmdOrCtrl+R',
 		click: (item, focusedWindow) => {

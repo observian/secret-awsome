@@ -32,7 +32,7 @@ function saveForm() {
 
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
-			ipcRenderer.send('modify-save-complete', JSON.stringify(result));
+			ipcRenderer.send('reload-index', JSON.stringify(result));
 		})
 		.catch(err => {
 			console.error(err, err.stack);

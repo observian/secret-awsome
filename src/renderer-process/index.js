@@ -1,8 +1,12 @@
 import {
 	updateParameter,
 	getParameters,
-	deleteParameters
+	deleteParameters,
+	setCredentials
 } from '../api/ssm';
+
+const profile = require('../api/profile');
+
 import {
 	ipcRenderer
 } from 'electron';
@@ -24,15 +28,27 @@ loader.stop = function () {
 };
 
 ipcRenderer.on('reload', () => {
-	getAll()
-		.then(() => {
-			ipcRenderer.send('index-refresh-complete');
-		});
+	loadAll();
 });
+
+function loadAll() {
+	loadProfiles()
+		.then(profilesLoaded => {
+			if (profilesLoaded) {
+				getAllParameters()
+					.then(() => {
+						ipcRenderer.send('index-reload-complete');
+					});
+			} else {
+				ipcRenderer.send('manage-profiles-open');
+			}
+		});
+}
 
 const getAllParamsBtn = document.getElementById('get-all-parameters');
 const addBtn = document.getElementById('add');
 const deleteBtn = document.getElementById('delete');
+const profilesSelect = document.getElementById('profiles');
 
 function cloneClickListener(params) {
 	let selectedRegions = [];
@@ -51,7 +67,7 @@ function cloneClickListener(params) {
 	ipcRenderer.send('modify-open', JSON.stringify(data));
 }
 
-function getAll() {
+function getAllParameters() {
 	loader.load();
 	return getParameters()
 		.then(params => {
@@ -99,7 +115,7 @@ deleteBtn.addEventListener('click', () => {
 });
 
 getAllParamsBtn.addEventListener('click', () => {
-	getAll();
+	getAllParameters();
 });
 
 addBtn.addEventListener('click', () => {
@@ -148,7 +164,6 @@ let columnDefs = [{
 	}
 ];
 
-
 let gridOptions = {
 	columnDefs: columnDefs,
 	animateRows: true,
@@ -191,9 +206,46 @@ let gridOptions = {
 	}
 };
 
-let eGridDiv = document.querySelector('#myGrid');
+let eGridDiv = document.querySelector('#parameterGrid');
 
 // create the grid passing in the div to use together with the columns & data we want to use
 new agGrid.Grid(eGridDiv, gridOptions);
 
-getAll();
+function loadProfiles() {
+	return profile.getProfiles()
+		.then(profiles => {
+			profilesSelect.options.length = 0;
+			if (!profiles || profiles.length === 0) {
+				loader.stop();
+				return false;
+			}
+
+			for (let i = 0; i < profiles.length; i++) {
+				const profile = profiles[i];
+				profilesSelect.options[profilesSelect.options.length] = new Option(profile.name, profile.name);
+			}
+
+			let jProf = jquery(profilesSelect);
+
+			jProf.change(function () {
+				setCredentials(this.value);
+				getAllParameters();
+			});
+
+			setCredentials(jProf.val());
+
+			return true;
+		})
+		.catch(() => {
+			loader.stop();
+			getAllParamsBtn.disabled = true;
+			addBtn.disabled = true;
+			deleteBtn.disabled = true;
+			profilesSelect.disabled = true;
+			gridOptions.api.setRowData([]);
+
+			return false;
+		});
+}
+
+loadAll();
