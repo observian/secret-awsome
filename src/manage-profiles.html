@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Profiles</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/global.css">
+	<link rel="stylesheet" href="assets/css/nativize.css">
+	<link rel="stylesheet" href="assets/css/nav.css">
+	<link rel="stylesheet" href="assets/css/section.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
+	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
+	<script defer src='assets/lib/fontawesome-all.min.js'></script>
+</head>
+
+<body>
+	<main class='content is-shown'>
+		<section class='section is-shown'>
+			<button id='add-profile' class='interact'>Add</button>
+			<button id='delete-profile' class='interact'>Remove</button>
+			<div id="profilesGrid" style="height:200px" class="ag-theme-balham"></div>
+			<div>* Not required</div>
+			<button id='save-profiles' class='interact'>Save and Close</button>
+		</section>
+	</main>
+</body>
+<script>
+	require('./assets/imports')
+	require('./renderer-process/manage-profiles');
+</script>
+
+</html>

@@ -2,6 +2,6 @@ const {
 	ipcMain
 } = require('electron');
 
-ipcMain.on('modify-save-complete', () => {
+ipcMain.on('reload-index', () => {
 	global.indexWindow.webContents.send('reload');
 });

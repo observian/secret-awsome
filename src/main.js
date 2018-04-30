@@ -36,13 +36,14 @@ function createIndexWindow(width, height, view) {
 		require('devtron').install();
 	}
 
-
 	// Emitted when the window is closed.
 	indexWindow.on('closed', () => {
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		indexWindow = null;
+		modifyWindow = null;
+		profileWindow = null;
 	});
 
 	global.indexWindow = indexWindow;
@@ -82,12 +83,48 @@ function createModifyWindow(width, height, view) {
 }
 
 
+let profileWindow = null;
+
+function createProfileWindow(width, height, view) {
+	profileWindow = new BrowserWindow({
+		width: width,
+		height: height,
+		parent: indexWindow,
+		modal: false,
+		show: false
+	});
+
+	// and load the index.html of the app.
+	profileWindow.loadURL(url.format({
+		pathname: path.join(__dirname, view),
+		protocol: 'file:',
+		slashes: true
+	}));
+
+	// Launch fullscreen with DevTools open, usage: npm run debug
+	if (debug) {
+		profileWindow.webContents.openDevTools();
+		//mainWindow.maximize();
+		require('devtron').install();
+	}
+
+	// Emitted when the window is closed.
+	profileWindow.on('close', ev => {
+		ev.preventDefault();
+		profileWindow.hide();
+	});
+
+	global.profileWindow = profileWindow;
+}
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
 	createIndexWindow(1324, 768, 'index.html');
 	createModifyWindow(800, 600, 'modify.html');
+	createProfileWindow(840, 350, 'manage-profiles.html');
 });
 
 // Quit when all windows are closed.
@@ -141,11 +178,13 @@ function handleSquirrelEvent() {
 	const exeName = path.basename(process.execPath);
 
 	const spawn = function (command, args) {
-		let spawnedProcess, error;
+		let spawnedProcess;
 
 		try {
-			spawnedProcess = ChildProcess.spawn(command, args, { detached: true });
-		} catch (error) { }
+			spawnedProcess = ChildProcess.spawn(command, args, {
+				detached: true
+			});
+		} catch (error) {}
 
 		return spawnedProcess;
 	};
