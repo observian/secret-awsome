@@ -1,6 +1,6 @@
-const {
+import {
 	ipcMain
-} = require('electron');
+} from 'electron';
 
 ipcMain.on('manage-profiles-open', (event, arg) => {
 	global.profileWindow.webContents.send('open-message', arg);

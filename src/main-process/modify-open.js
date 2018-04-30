@@ -1,6 +1,6 @@
-const {
+import {
 	ipcMain
-} = require('electron');
+} from 'electron';
 
 ipcMain.on('modify-open', (event, arg) => {
 	global.modifyWindow.webContents.send('open-message', arg);

@@ -1,12 +1,22 @@
-const AWS = require('aws-sdk');
-const defaultRegions = require('../assets/json/default-regions.json');
-const types = require('../assets/json/types.json');
+import {
+	config,
+	SSM,
+	SharedIniFileCredentials
+} from 'aws-sdk';
+
+import defaultRegions, {
+	regions as _regions
+} from '../assets/json/default-regions.json';
+import types from '../assets/json/types.json';
+
 const Promise = require('bluebird');
 
-AWS.config.setPromisesDependency(Promise);
+
+
+config.setPromisesDependency(Promise);
 
 function getParameter(name, region, withDecryption) {
-	const ssm = new AWS.SSM({
+	const ssm = new SSM({
 		region: region
 	});
 
@@ -30,7 +40,7 @@ function getParameter(name, region, withDecryption) {
 function recursiveGet(path, region) {
 	let values = [];
 
-	const ssm = new AWS.SSM({
+	const ssm = new SSM({
 		region: region
 	});
 
@@ -76,8 +86,8 @@ function getParameters(path) {
 
 	path = '/';
 
-	for (let i = 0; i < defaultRegions.regions.length; i++) {
-		const reg = defaultRegions.regions[i];
+	for (let i = 0; i < _regions.length; i++) {
+		const reg = _regions[i];
 
 		let prom = recursiveGet(path, reg.region);
 
@@ -97,8 +107,8 @@ function getRegions(name) {
 	let proms = [];
 	let regions = [];
 
-	for (let i = 0; i < defaultRegions.regions.length; i++) {
-		let prom = getParameter(name, defaultRegions.regions[i].region, false);
+	for (let i = 0; i < _regions.length; i++) {
+		let prom = getParameter(name, _regions[i].region, false);
 		proms.push(prom);
 	}
 
@@ -124,7 +134,7 @@ function updateParameter(name, type, value, region) {
 		Overwrite: true
 	};
 
-	const ssm = new AWS.SSM({
+	const ssm = new SSM({
 		region: region
 	});
 
@@ -161,7 +171,7 @@ function deleteParameters(parameters) {
 		});
 
 		Object.keys(regionMap).forEach(region => {
-			const ssm = new AWS.SSM({
+			const ssm = new SSM({
 				region: region
 			});
 
@@ -180,19 +190,46 @@ function deleteParameters(parameters) {
 }
 
 function setCredentials(profileName) {
-	let credentials = new AWS.SharedIniFileCredentials({
+	let credentials = new SharedIniFileCredentials({
 		profile: profileName
 	});
 
-	AWS.config.credentials = credentials;
+	config.credentials = credentials;
 }
 
-module.exports.getParameters = getParameters;
-module.exports.getParameter = getParameter;
-module.exports.updateParameter = updateParameter;
-module.exports.updateParameters = updateParameters;
-module.exports.deleteParameters = deleteParameters;
-module.exports.types = types;
-module.exports.defaultRegions = defaultRegions;
-module.exports.getRegions = getRegions;
-module.exports.setCredentials = setCredentials;
+const _getParameters = getParameters;
+export {
+	_getParameters as getParameters
+};
+const _getParameter = getParameter;
+export {
+	_getParameter as getParameter
+};
+const _updateParameter = updateParameter;
+export {
+	_updateParameter as updateParameter
+};
+const _updateParameters = updateParameters;
+export {
+	_updateParameters as updateParameters
+};
+const _deleteParameters = deleteParameters;
+export {
+	_deleteParameters as deleteParameters
+};
+const _types = types;
+export {
+	_types as types
+};
+const _defaultRegions = defaultRegions;
+export {
+	_defaultRegions as defaultRegions
+};
+const _getRegions = getRegions;
+export {
+	_getRegions as getRegions
+};
+const _setCredentials = setCredentials;
+export {
+	_setCredentials as setCredentials
+};

@@ -5,16 +5,27 @@ import {
 	setCredentials
 } from '../api/ssm';
 
-const profile = require('../api/profile');
+import {
+	getProfiles
+} from '../api/profile';
 
 import {
 	ipcRenderer
 } from 'electron';
-let jquery = require('jquery');
-let agGrid = require('ag-grid');
+
+import jquery from 'jquery';
+
+import {
+	Grid
+} from 'ag-grid';
+
+import {
+	remote
+} from 'electron';
+
 const {
 	dialog
-} = require('electron').remote;
+} = remote;
 
 let loader = document.getElementById('load');
 loader.load = function () {
@@ -209,10 +220,10 @@ let gridOptions = {
 let eGridDiv = document.querySelector('#parameterGrid');
 
 // create the grid passing in the div to use together with the columns & data we want to use
-new agGrid.Grid(eGridDiv, gridOptions);
+new Grid(eGridDiv, gridOptions);
 
 function loadProfiles() {
-	return profile.getProfiles()
+	return getProfiles()
 		.then(profiles => {
 			profilesSelect.options.length = 0;
 			if (!profiles || profiles.length === 0) {
