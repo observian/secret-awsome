@@ -1,6 +1,6 @@
-const {
+import {
 	ipcMain
-} = require('electron');
+} from 'electron';
 
 ipcMain.on('profile-done', () => {
 	global.profileWindow.hide();

@@ -1,9 +1,9 @@
-const {
+import {
 	BrowserWindow,
 	Menu,
 	app,
 	shell
-} = require('electron');
+} from 'electron';
 
 let template = [{
 	label: 'Edit',

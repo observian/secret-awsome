@@ -2,11 +2,15 @@ import {
 	updateParameters,
 	defaultRegions
 } from '../api/ssm';
+
 import {
 	ipcRenderer
 } from 'electron';
+
 import Promise from 'bluebird';
+
 import jquery from 'jquery';
+
 import {
 	parse
 } from 'query-string';

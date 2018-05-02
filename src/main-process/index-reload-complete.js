@@ -1,6 +1,6 @@
-const {
+import {
 	ipcMain
-} = require('electron');
+} from 'electron';
 
 ipcMain.on('index-reload-complete', () => {
 	global.modifyWindow.hide();

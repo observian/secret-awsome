@@ -6,12 +6,15 @@ import {
 import {
 	ipcRenderer
 } from 'electron';
+
 import {
 	Grid
 } from 'ag-grid';
+
 import {
 	remote
 } from 'electron';
+
 const {
 	dialog
 } = remote;

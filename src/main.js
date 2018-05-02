@@ -1,12 +1,23 @@
-const {
+import {
 	app,
 	BrowserWindow
-} = require('electron');
-const path = require('path');
-const url = require('url');
-const glob = require('glob');
+} from 'electron';
 
-if (require('electron-squirrel-startup')) app.quit();
+import {
+	join
+} from 'path';
+
+import {
+	format
+} from 'url';
+
+import {
+	sync
+} from 'glob';
+
+if (require('electron-squirrel-startup')) {
+	app.quit();
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -23,8 +34,8 @@ function createIndexWindow(width, height, view) {
 	});
 
 	// and load the index.html of the app.
-	indexWindow.loadURL(url.format({
-		pathname: path.join(__dirname, view),
+	indexWindow.loadURL(format({
+		pathname: join(__dirname, view),
 		protocol: 'file:',
 		slashes: true
 	}));
@@ -60,8 +71,8 @@ function createModifyWindow(width, height, view) {
 	});
 
 	// and load the index.html of the app.
-	modifyWindow.loadURL(url.format({
-		pathname: path.join(__dirname, view),
+	modifyWindow.loadURL(format({
+		pathname: join(__dirname, view),
 		protocol: 'file:',
 		slashes: true
 	}));
@@ -95,8 +106,8 @@ function createProfileWindow(width, height, view) {
 	});
 
 	// and load the index.html of the app.
-	profileWindow.loadURL(url.format({
-		pathname: path.join(__dirname, view),
+	profileWindow.loadURL(format({
+		pathname: join(__dirname, view),
 		protocol: 'file:',
 		slashes: true
 	}));
@@ -155,7 +166,7 @@ function loadMain() {
 	}
 
 
-	const files = glob.sync(path.join(__dirname, 'main-process/**/*.js'));
+	const files = sync(join(__dirname, 'main-process/**/*.js'));
 	files.forEach((file) => {
 		require(file);
 	});
