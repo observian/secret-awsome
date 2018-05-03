@@ -6,10 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Observian SSM Parameter Store Manager</title>
-	<link rel="stylesheet" href="assets/css/global.css">
-	<link rel="stylesheet" href="assets/css/nativize.css">
-	<link rel="stylesheet" href="assets/css/nav.css">
-	<link rel="stylesheet" href="assets/css/section.css">
+	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
@@ -18,19 +15,16 @@
 
 <body>
 	<main class='content is-shown'>
-		<div id='load' class='loader'></div>
-		<section class='section is-shown'>
-			<div id='main' class='section-wrapper'>
-				<select id="profiles" name="allprofiles">
-				</select>
-
-				<button id='get-all-parameters' class='interact'>Refresh</button>
-				<button id='add' class='interact'>Add</button>
-				<button id='delete' class='interact'>Delete</button>
-				<input type="search" id="filter-text-box" class='interact' placeholder="Filter..." />
-				<div id="parameterGrid" style="height:600px" class="ag-theme-balham"></div>
-			</div>
-		</section>
+		<div id='load'></div>
+		<div class="header">
+			<img src="assets/images/logo.svg" alt="logo" class="logo">
+		</div>
+		<select id="profiles" name="allprofiles" class="primary"></select>
+		<button id='get-all-parameters' class='interact'>Refresh</button>
+		<button id='add' class='interact'>Add</button>
+		<button id='delete' class='interact'>Delete</button>
+		<input type="search" id="filter-text-box" class='interact' placeholder="Filter..." />
+		<div id="parameterGrid" style="height:75%" class="ag-theme-balham"></div>
 	</main>
 </body>
 <script>
