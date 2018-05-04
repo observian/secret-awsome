@@ -27,6 +27,10 @@ const {
 	dialog
 } = remote;
 
+window.eval = global.eval = function () {
+	throw new Error('Sorry, this app does not support window.eval().');
+};
+
 let loader = document.getElementById('load');
 loader.load = function () {
 	this.style.visibility = 'visible';

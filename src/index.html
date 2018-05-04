@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline' file: data: 'self' https://atom.io"> -->
 	<title>Observian SSM Parameter Store Manager</title>
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
@@ -24,7 +25,7 @@
 		<button id='add' class='interact'>Add</button>
 		<button id='delete' class='interact'>Delete</button>
 		<input type="search" id="filter-text-box" class='interact' placeholder="Filter..." />
-		<div id="parameterGrid" style="height:75%" class="ag-theme-balham"></div>
+		<div id="parameterGrid" class="ag-theme-balham"></div>
 	</main>
 </body>
 <script>

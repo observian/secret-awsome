@@ -3,6 +3,14 @@ import {
 	BrowserWindow
 } from 'electron';
 
+import installExtension, {
+	REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer';
+import {
+	enableLiveReload,
+} from 'electron-compile';
+
+
 import {
 	join
 } from 'path';
@@ -24,9 +32,15 @@ if (require('electron-squirrel-startup')) {
 let indexWindow = {};
 let modifyWindow = {};
 
-const debug = /--debug|--inspect-brk/.test(process.argv[2]);
+const isDevMode = process.execPath.match(/[\\/]electron/);
 
-function createIndexWindow(width, height, view) {
+if (isDevMode) {
+	enableLiveReload({
+		strategy: 'react-hmr',
+	});
+}
+
+const createIndexWindow = async (width, height, view) => {
 	// Create the browser window.
 	indexWindow = new BrowserWindow({
 		width: width,
@@ -41,10 +55,10 @@ function createIndexWindow(width, height, view) {
 	}));
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
-	if (debug) {
-		indexWindow.webContents.openDevTools();
-		//mainWindow.maximize();
+	if (isDevMode) {
+		await installExtension(REACT_DEVELOPER_TOOLS);
 		require('devtron').install();
+		indexWindow.webContents.openDevTools();
 	}
 
 	// Emitted when the window is closed.
@@ -58,9 +72,9 @@ function createIndexWindow(width, height, view) {
 	});
 
 	global.indexWindow = indexWindow;
-}
+};
 
-function createModifyWindow(width, height, view) {
+const createModifyWindow = async (width, height, view) => {
 	// Create the browser window.
 	modifyWindow = new BrowserWindow({
 		width: width,
@@ -78,10 +92,10 @@ function createModifyWindow(width, height, view) {
 	}));
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
-	if (debug) {
-		modifyWindow.webContents.openDevTools();
-		//mainWindow.maximize();
+	if (isDevMode) {
+		await installExtension(REACT_DEVELOPER_TOOLS);
 		require('devtron').install();
+		modifyWindow.webContents.openDevTools();
 	}
 
 	// Emitted when the window is closed.
@@ -91,12 +105,12 @@ function createModifyWindow(width, height, view) {
 	});
 
 	global.modifyWindow = modifyWindow;
-}
+};
 
 
 let profileWindow = null;
 
-function createProfileWindow(width, height, view) {
+const createProfileWindow = async (width, height, view) => {
 	profileWindow = new BrowserWindow({
 		width: width,
 		height: height,
@@ -113,10 +127,10 @@ function createProfileWindow(width, height, view) {
 	}));
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
-	if (debug) {
-		profileWindow.webContents.openDevTools();
-		//mainWindow.maximize();
+	if (isDevMode) {
+		await installExtension(REACT_DEVELOPER_TOOLS);
 		require('devtron').install();
+		profileWindow.webContents.openDevTools();
 	}
 
 	// Emitted when the window is closed.
@@ -126,16 +140,16 @@ function createProfileWindow(width, height, view) {
 	});
 
 	global.profileWindow = profileWindow;
-}
+};
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-	createIndexWindow(1324, 768, 'index.html');
-	createModifyWindow(800, 600, 'modify.html');
-	createProfileWindow(840, 350, 'manage-profiles.html');
+app.on('ready', async () => {
+	await createIndexWindow(1324, 768, 'index.html');
+	await createModifyWindow(800, 600, 'modify.html');
+	await createProfileWindow(840, 350, 'manage-profiles.html');
 });
 
 // Quit when all windows are closed.
@@ -147,11 +161,11 @@ app.on('window-all-closed', () => {
 	//}
 });
 
-app.on('activate', () => {
+app.on('activate', async () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (!indexWindow) {
-		createIndexWindow(1324, 768, 'index.html');
+		await createIndexWindow(1324, 768, 'index.html');
 	}
 });
 
