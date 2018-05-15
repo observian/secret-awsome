@@ -1,0 +1,36 @@
+body {
+	font-family: 'Open Sans'
+}
+
+/* checkboxes */
+
+label {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	padding-left: 25px;
+	/* 10 px padding right + 15px input type*/
+	margin-right: 10px;
+	/* margin between inputs types */
+}
+
+label:before {
+	content: "";
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	left: 0;
+}
+
+input[type=checkbox] {
+	display: none;
+}
+
+.checkboxes label:before {
+	background: url('../images/box.png') left center no-repeat;
+	margin-top: 2px;
+}
+
+input[type=checkbox]:checked+label:before {
+	background: url('../images/boxchecked.png') left center no-repeat;
+}

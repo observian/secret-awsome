@@ -1,32 +1,31 @@
 <template class='task-template'>
 	<section class='section is-shown'>
 		<form id='region-form' name='region-form'>
-			<fieldset>
-				<legend>Name</legend>
-				<div>
-					<input type="text" id="name" name="name">
+			<div class='header-fields'>
+				<div class='parameter-name'>
+					<input type="text" id="name" name="name" placeholder="Enter name...">
 				</div>
-			</fieldset>
-			<fieldset id='region-fieldset'>
-				<legend>Regions</legend>
-			</fieldset>
-			<fieldset>
-				<legend>Type</legend>
-				<div>
+				<div class='parameter-type'>
 					<select id="parameter-type-region" name="type">
 						<option value="String" selected>String</option>
 						<option value="StringList">StringList</option>
 						<option value="SecureString">SecureString</option>
 					</select>
 				</div>
-			</fieldset>
-			<fieldset>
-				<legend>Value</legend>
-				<div>
-					<input type="text" id="value" name="value">
-				</div>
-			</fieldset>
-			<button type="submit">Save</button>
+			</div>
+			<div class='parameter-regions'>
+				<div class='region-header'>Regions</div>
+				<div class='checkboxes'></div>
+			</div>
+			<div class='parameter-value'>
+				<input type="text" id="value" name="value" placeholder="Enter value...">
+			</div>
+			<div class='parameter-save'>
+				<button id='saveBtn' type="submit">
+					<span class='save-text'>Save</span>
+					<i class="fas fa-arrow-right"></i>
+				</button>
+			</div>
 		</form>
 	</section>
 </template>

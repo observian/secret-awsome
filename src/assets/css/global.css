@@ -1,250 +1,53 @@
-/* Fonts ---------------------------- */
+/* source-sans-pro-regular - latin */
 
 @font-face {
-	font-family: 'Source Code Pro';
+	font-family: 'Source Sans Pro';
 	font-style: normal;
 	font-weight: 400;
-	src: local('Source Code Pro'), local('SourceCodePro'), url(fonts/SourceCodePro-Regular.ttf) format('truetype');
+	src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url('../fonts/source-sans-pro-v11-latin-regular.woff2') format('woff2');
 }
 
-/* Global ---------------------------- */
+/* source-sans-pro-600 - latin */
 
-* {
-	box-sizing: border-box;
-}
-
-html {
-	height: 100%;
-	font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
-	font-size: 14px;
-	line-height: 1.5;
-	overflow: hidden;
-	/* Prevents rubber-band scrolling of the whole "page" */
-	color: var(--color);
-	background-color: #fff;
-	/* To cover OSes with no default background color */
-}
-
-body {
-	margin: 0;
-	height: 100%;
-	display: flex;
-}
-
-a {
-	color: var(--color-link);
-}
-
-h1,
-h2,
-h3 {
-	margin-top: 0;
-	line-height: 1.5;
-}
-
-h1 {
-	font-size: 1.5em;
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
 	font-weight: 600;
+	src: local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'), url('../fonts/source-sans-pro-v11-latin-600.woff2') format('woff2');
 }
 
-h2 {
-	font-size: 1.3em;
-	font-weight: normal;
+/* open-sans-regular - latin */
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../fonts/open-sans-v15-latin-regular.woff2') format('woff2');
 }
 
-h3 {
-	font-size: 1.12em;
+/* open-sans-600 - latin */
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
 	font-weight: 600;
+	src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url('../fonts/open-sans-v15-latin-600.woff2') format('woff2');
 }
 
-table {
-	width: 100%;
-	border-spacing: 0;
-	border: 1px solid hsla(0, 0%, 0%, .08);
-	border-width: 0 1px 1px 0;
+/* montserrat-regular - latin */
+
+@font-face {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Montserrat Regular'), local('Montserrat-Regular'), url('../fonts/montserrat-v12-latin-regular.woff2') format('woff2');
 }
 
-th {
-	background-color: hsla(0, 0%, 50%, .06);
-}
+/* montserrat-600 - latin */
 
-th,
-td {
-	text-align: center;
-	border: 1px solid hsla(0, 0%, 0%, .08);
-	border-width: 1px 0 0 1px;
-}
-
-svg {
-	fill: currentColor;
-}
-
-/* Code */
-
-code,
-kbd {
-	font-family: 'Source Code Pro', monospace;
-	border-radius: 4px;
-	padding: 1px 4px;
-	white-space: nowrap;
-	color: hsl(0, 0%, 36%);
-	background-color: hsla(0, 0%, 60%, .15);
-}
-
-pre,
-kbd {
-	font-size: 13px;
-	overflow: auto;
-	padding: 1em;
-	margin: 0;
-	border-radius: 4px;
-	border: 1px solid;
-	border-color: var(--color-border);
-	background-color: white;
-}
-
-pre code {
-	white-space: pre;
-}
-
-pre>.hljs {
-	color: var(--color-subtle);
-	background-color: white;
-}
-
-kbd {
-	padding: 0.5em;
-}
-
-/* Utilities ---------------------------- */
-
-.u-avoid-clicks {
-	pointer-events: none;
-}
-
-/* Visually hidden, but will be read by screen readers */
-
-.u-visible-to-screen-reader {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
-
-.no-display {
-	display: none;
-}
-
-/* Content ------------------ */
-
-.content {
-	flex: 1;
-	position: relative;
-	overflow: hidden;
-	visibility: hidden;
-	opacity: 0;
-}
-
-.content.is-shown {
-	visibility: visible;
-	;
-	opacity: 1;
-}
-
-/* Hacks ---------------------------- */
-
-/* Fixes horizontal scrolling in code blocks on OS X El Cap (10.11.3), retina screen
- *
- * By adding an invisible outline property, it will force a repaint
- * which enables the scrolling.
- */
-
-.hljs:hover,
-.hljs:active {
-	outline: 1px solid transparent;
-}
-
-.clickable {
-	cursor: pointer;
-}
-
-.loader,
-.loader:before,
-.loader:after {
-	background: #000000;
-	-webkit-animation: load1 1s infinite ease-in-out;
-	animation: load1 1s infinite ease-in-out;
-	width: 1em;
-	height: 4em;
-}
-
-.loader {
-	color: #000000;
-	top: 33%;
-	text-indent: -9999em;
-	margin: 88px auto;
-	position: relative;
-	font-size: 11px;
-	z-index: 1;
-	-webkit-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	transform: translateZ(0);
-	-webkit-animation-delay: -0.16s;
-	animation-delay: -0.16s;
-}
-
-.loader:before,
-.loader:after {
-	position: absolute;
-	top: 0;
-	content: '';
-}
-
-.loader:before {
-	left: -1.5em;
-	-webkit-animation-delay: -0.32s;
-	animation-delay: -0.32s;
-}
-
-.loader:after {
-	left: 1.5em;
-}
-
-@-webkit-keyframes load1 {
-	0%,
-	80%,
-	100% {
-		box-shadow: 0 0;
-		height: 4em;
-	}
-	40% {
-		box-shadow: 0 -2em;
-		height: 5em;
-	}
-}
-
-@keyframes load1 {
-	0%,
-	80%,
-	100% {
-		box-shadow: 0 0;
-		height: 4em;
-	}
-	40% {
-		box-shadow: 0 -2em;
-		height: 5em;
-	}
-}
-
-input[type=text] {
-	width: 400px;
-}
-
-.fa-edit .fa-clone {
-	margin-left: 3px;
-	margin-right: 5px;
+@font-face {
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 600;
+	src: local('Montserrat SemiBold'), local('Montserrat-SemiBold'), url('../fonts/montserrat-v12-latin-600.woff2') format('woff2');
 }

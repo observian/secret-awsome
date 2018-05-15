@@ -54,8 +54,7 @@ function setValues(obj) {
 	prom = Promise.try(() => {
 		regionForm[0].reset();
 
-		let fs = jquery('#region-fieldset').empty();
-		fs.append('<legend>Regions</legend>');
+		let fs = jquery('.checkboxes').empty();
 
 		for (let i = 0; i < defaultRegions.regions.length; i++) {
 			const reg = defaultRegions.regions[i];
@@ -65,7 +64,6 @@ function setValues(obj) {
 		<label for="${reg.region}">${reg.displayname} (${reg.region})</label>
 	</div>`);
 		}
-
 
 		jquery('#name').prop('readonly', false);
 		jquery('#parameter-type-region option').prop('disabled', false).prop('selected', false);

@@ -81,7 +81,8 @@ const createModifyWindow = async (width, height, view) => {
 		height: height,
 		parent: indexWindow,
 		modal: false,
-		show: false
+		show: false,
+		resizable: true
 	});
 
 	// and load the index.html of the app.
@@ -148,7 +149,7 @@ const createProfileWindow = async (width, height, view) => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
 	await createIndexWindow(1324, 768, 'index.html');
-	await createModifyWindow(800, 600, 'modify.html');
+	await createModifyWindow(1115, 600, 'modify.html');
 	await createProfileWindow(840, 350, 'manage-profiles.html');
 });
 
