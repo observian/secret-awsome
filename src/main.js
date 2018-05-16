@@ -4,7 +4,7 @@ import {
 } from 'electron';
 
 import installExtension, {
-	REACT_DEVELOPER_TOOLS,
+	JQUERY_DEBUGGER,
 } from 'electron-devtools-installer';
 import {
 	enableLiveReload,
@@ -35,9 +35,7 @@ let modifyWindow = {};
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
 if (isDevMode) {
-	enableLiveReload({
-		strategy: 'react-hmr',
-	});
+	//	enableLiveReload();
 }
 
 const createIndexWindow = async (width, height, view) => {
@@ -56,7 +54,7 @@ const createIndexWindow = async (width, height, view) => {
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
 	if (isDevMode) {
-		await installExtension(REACT_DEVELOPER_TOOLS);
+		await installExtension(JQUERY_DEBUGGER);
 		require('devtron').install();
 		indexWindow.webContents.openDevTools();
 	}
@@ -94,7 +92,7 @@ const createModifyWindow = async (width, height, view) => {
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
 	if (isDevMode) {
-		await installExtension(REACT_DEVELOPER_TOOLS);
+		await installExtension(JQUERY_DEBUGGER);
 		require('devtron').install();
 		modifyWindow.webContents.openDevTools();
 	}
@@ -107,7 +105,6 @@ const createModifyWindow = async (width, height, view) => {
 
 	global.modifyWindow = modifyWindow;
 };
-
 
 let profileWindow = null;
 
@@ -129,7 +126,7 @@ const createProfileWindow = async (width, height, view) => {
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
 	if (isDevMode) {
-		await installExtension(REACT_DEVELOPER_TOOLS);
+		await installExtension(JQUERY_DEBUGGER);
 		require('devtron').install();
 		profileWindow.webContents.openDevTools();
 	}

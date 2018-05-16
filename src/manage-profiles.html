@@ -8,10 +8,11 @@
 	<title>Profiles</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/global.css">
-	<link rel="stylesheet" href="assets/css/manage-profiles.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
+	<link rel="stylesheet" href="assets/css/ag-grid-custom.css">
+	<link rel="stylesheet" href="assets/css/manage-profiles.css">
 	<script defer src='assets/lib/fontawesome-all.min.js'></script>
 </head>
 
@@ -22,7 +23,10 @@
 			<button id='delete-profile' class='interact'>Remove</button>
 			<div id="profilesGrid" style="height:200px" class="ag-theme-balham"></div>
 			<div>* Not required</div>
-			<button id='save-profiles' class='interact'>Save and Close</button>
+			<button id='save-button'>
+				<span class='save-text'>Save</span>
+				<i class="fas fa-arrow-right"></i>
+			</button>
 		</section>
 	</main>
 </body>

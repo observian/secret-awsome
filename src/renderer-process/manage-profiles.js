@@ -19,7 +19,7 @@ const {
 	dialog
 } = remote;
 
-const saveProfilesBtn = document.getElementById('save-profiles');
+const saveProfilesBtn = document.getElementById('save-button');
 const addBtn = document.getElementById('add-profile');
 const deleteBtn = document.getElementById('delete-profile');
 

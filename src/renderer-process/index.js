@@ -138,12 +138,12 @@ addBtn.addEventListener('click', () => {
 });
 
 let columnDefs = [{
-		headerName: 'Region',
+		headerName: 'REGION',
 		field: 'Region',
 		checkboxSelection: true
 	},
 	{
-		headerName: 'Name',
+		headerName: 'NAME',
 		field: 'Name',
 		cellRenderer: function (params) {
 			if (!params.data) {
@@ -154,11 +154,11 @@ let columnDefs = [{
 		},
 	},
 	{
-		headerName: 'Type',
+		headerName: 'TYPE',
 		field: 'Type'
 	},
 	{
-		headerName: 'Value',
+		headerName: 'VALUE',
 		field: 'Value',
 		cellRenderer: function (params) {
 			let val;
@@ -174,7 +174,7 @@ let columnDefs = [{
 		editable: true
 	},
 	{
-		headerName: 'Version',
+		headerName: 'VERSION',
 		field: 'Version'
 	}
 ];
@@ -187,6 +187,8 @@ let gridOptions = {
 	enableSorting: true,
 	singleClickEdit: true,
 	rowSelection: 'multiple',
+	rowHeight: 60,
+	headerHeight: 60,
 	onGridReady: function (params) {
 		params.columnApi.autoSizeAllColumns();
 	},

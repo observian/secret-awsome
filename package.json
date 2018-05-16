@@ -30,7 +30,6 @@
 	"homepage": "https://github.com/observian/aws-ssm-parameter-manager#readme",
 	"dependencies": {
 		"ag-grid": "^17.1.1",
-		"ag-grid-react": "^17.1.0",
 		"aws-sdk": "^2.231.1",
 		"bluebird": "^3.5.1",
 		"electron-compile": "^6.4.2",
@@ -40,11 +39,7 @@
 		"jquery": "^3.3.1",
 		"line-by-line": "^0.1.6",
 		"mkdirp": "^0.5.1",
-		"query-string": "^6.1.0",
-		"react": "^16.3.2",
-		"react-dom": "^16.3.2",
-		"react-dom-factories": "^1.0.2",
-		"react-hot-loader": "^4.1.2"
+		"query-string": "^6.1.0"
 	},
 	"devDependencies": {
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
