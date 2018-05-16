@@ -1,4 +1,5 @@
 {
+	"extends": ["plugin:react/recommended"],
 	"env": {
 		"browser": true,
 		"commonjs": true,
@@ -6,8 +7,10 @@
 		"node": true
 	},
 	"parserOptions": {
+		"ecmaVersion": 8,
 		"ecmaFeatures": {
-			"jsx": true
+			"jsx": true,
+			"experimentalObjectRestSpread": true
 		},
 		"sourceType": "module"
 	},
@@ -23,6 +26,7 @@
 		"no-var": "warn",
 		"quotes": ["warn", "single", {
 			"avoidEscape": true
-		}]
+		}],
+		"react/prop-types": [0]
 	}
 }

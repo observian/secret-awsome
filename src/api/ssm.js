@@ -81,15 +81,19 @@ function recursiveGet(path, region) {
 	return Promise.try(innerget);
 }
 
-function getParameters(path) {
+function getParameters(path, profile) {
 	let proms = [];
 
 	path = '/';
 
+	if (profile) {
+		setCredentials(profile);
+	}
+
 	for (let i = 0; i < _regions.length; i++) {
 		const reg = _regions[i];
 
-		let prom = recursiveGet(path, reg.region);
+		let prom = recursiveGet(path, reg.value);
 
 		proms.push(prom);
 	}
@@ -108,7 +112,7 @@ function getRegions(name) {
 	let regions = [];
 
 	for (let i = 0; i < _regions.length; i++) {
-		let prom = getParameter(name, _regions[i].region, false);
+		let prom = getParameter(name, _regions[i].value, false);
 		proms.push(prom);
 	}
 
@@ -120,7 +124,7 @@ function getRegions(name) {
 		})
 		.then(myvals => {
 			myvals.forEach((val) => {
-				regions.push(val.Region);
+				regions.push(val.value);
 			});
 			return regions;
 		});

@@ -2,40 +2,65 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Observian SSM Parameter Store Manager</title>
-	<link rel="stylesheet" href="assets/css/global.css">
-	<link rel="stylesheet" href="assets/css/nativize.css">
-	<link rel="stylesheet" href="assets/css/nav.css">
-	<link rel="stylesheet" href="assets/css/section.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
+	<link rel="stylesheet" href="../node_modules/react-select/dist/react-select.css">
+	<link rel="stylesheet" href="./assets/css/main.css">
 	<script defer src='assets/lib/fontawesome-all.min.js'></script>
 </head>
+<style>
+	body {
+		font-family: 'Open Sans', Arial, sans-serif;
+		font-size: 14px;
+		line-height: 20px;
+	}
 
-<body>
-	<main class='content is-shown'>
-		<div id='load' class='loader'></div>
-		<section class='section is-shown'>
-			<div id='main' class='section-wrapper'>
-				<select id="profiles" name="allprofiles">
-				</select>
+	/* checkboxes */
 
-				<button id='get-all-parameters' class='interact'>Refresh</button>
-				<button id='add' class='interact'>Add</button>
-				<button id='delete' class='interact'>Delete</button>
-				<input type="search" id="filter-text-box" class='interact' placeholder="Filter..." />
-				<div id="parameterGrid" style="height:600px" class="ag-theme-balham"></div>
-			</div>
-		</section>
-	</main>
+	label {
+				cursor: pointer;
+				display: inline-block;
+				position: relative;
+				padding-left: 25px; /* 10 px padding right + 15px input type*/
+				margin-right: 10px; /* margin between inputs types */
+		}
+
+	label:before {
+				content: "";
+				width: 15px;
+				height: 15px;
+				position: absolute;
+				left: 0;
+		}
+
+	input[type=checkbox] {
+				display: none;
+		}
+
+	.checkbox label:before {
+			background: url('http://i36.photobucket.com/albums/e22/lilsq3/checkbox_small.png') left center no-repeat;
+			margin-top: 2px;
+		}
+
+	input[type=checkbox]:checked + label:before {
+				background: url('http://i36.photobucket.com/albums/e22/lilsq3/checkbox_selected_small.png') left center no-repeat;
+		}
+</style>
+
+<body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0">
+	<div id="App"></div>
+
+	<div>
+		<input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" />
+		<label for="checkboxG1" class="css-label">Option 1</label>
+	</div>
+
 </body>
+
 <script>
-	require('./assets/imports');
-	require('./renderer-process/index');
+	require('./renderer-process/index')
 </script>
 
 </html>
