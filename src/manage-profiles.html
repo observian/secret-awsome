@@ -11,23 +11,28 @@
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-grid.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/ag-theme-balham.css">
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
-	<link rel="stylesheet" href="assets/css/ag-grid-custom.css">
+	<link rel="stylesheet" href="assets/css/ag-grid-profiles.css">
 	<link rel="stylesheet" href="assets/css/manage-profiles.css">
 	<script defer src='assets/lib/fontawesome-all.min.js'></script>
 </head>
 
 <body>
-	<main class='content is-shown'>
-		<section class='section is-shown'>
+	<main>
+		<div id='load'></div>
+		<div class='header-fields'>
 			<button id='add-profile' class='interact'>Add</button>
 			<button id='delete-profile' class='interact'>Remove</button>
-			<div id="profilesGrid" style="height:200px" class="ag-theme-balham"></div>
-			<div>* Not required</div>
-			<button id='save-button'>
+		</div>
+		<div class='content'>
+			<div id="profiles-grid" class="ag-theme-balham"></div>
+			<div class='note'>* Not required</div>
+		</div>
+		<div class='footer-fields'>
+			<button id='save-profile'>
 				<span class='save-text'>Save</span>
 				<i class="fas fa-arrow-right"></i>
 			</button>
-		</section>
+		</div>
 	</main>
 </body>
 <script>

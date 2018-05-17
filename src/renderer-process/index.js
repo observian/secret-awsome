@@ -223,7 +223,7 @@ let gridOptions = {
 	}
 };
 
-let eGridDiv = document.querySelector('#parameterGrid');
+let eGridDiv = document.querySelector('#parameter-grid');
 
 // create the grid passing in the div to use together with the columns & data we want to use
 new Grid(eGridDiv, gridOptions);

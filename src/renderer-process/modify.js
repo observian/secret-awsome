@@ -15,19 +15,19 @@ import {
 	parse
 } from 'query-string';
 
-let loader = document.getElementById('load');
-loader.load = function () {
-	this.style.visibility = 'visible';
-	jquery('#region-form>button').prop('disabled', true);
-};
+// let loader = document.getElementById('load');
+// loader.load = function () {
+// 	this.style.visibility = 'visible';
+// 	jquery('#region-form>button').prop('disabled', true);
+// };
 
-loader.stop = function () {
-	this.style.visibility = 'hidden';
-	jquery('#region-form>button').prop('disabled', false);
-};
+// loader.stop = function () {
+// 	this.style.visibility = 'hidden';
+// 	jquery('#region-form>button').prop('disabled', false);
+// };
 
 function saveForm() {
-	loader.load();
+	//	loader.load();
 	let data = parse(jquery(this).serialize());
 
 	if (!jquery.isArray(data.region)) {
@@ -91,13 +91,13 @@ function setValues(obj) {
 }
 
 ipcRenderer.on('open-message', (event, arg) => {
-	loader.load();
+	//	loader.load();
 
 	let obj = JSON.parse(arg);
 
 	setValues(obj)
 		.finally(() => {
-			loader.stop();
+			//			loader.stop();
 		});
 
 });

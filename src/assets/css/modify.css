@@ -7,10 +7,10 @@ body {
 	/* box-shadow: 0 10px 40px 0 rgba(20, 22, 25, 0.28); */
 }
 
-form {
+main {
 	display: flex;
 	flex-flow: column wrap;
-	padding: 50px 75px;
+	margin: 50px 75px;
 }
 
 select {

@@ -1772,7 +1772,7 @@ ag-grid-aurelia {
 .ag-theme-balham {
   background-color: rgba(0, 0, 0, 0);
   color: #DCE1E0;
-  font: 400 12px "Source Sans Pro", sans-serif; }
+  font: 400 16px "Source Sans Pro", sans-serif; }
   .ag-theme-balham .ag-header,
   .ag-theme-balham .ag-row,
   .ag-theme-balham .ag-header-cell,
@@ -2893,7 +2893,7 @@ ag-grid-aurelia {
     padding-right: 4px; }
   .ag-theme-balham .ag-column-tool-panel-item button {
     font-family: "Source Sans Pro", sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     height: 100%; }
   .ag-theme-balham .ag-filter-filter {
     margin-bottom: 4px; }

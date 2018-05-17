@@ -19,7 +19,7 @@ const {
 	dialog
 } = remote;
 
-const saveProfilesBtn = document.getElementById('save-button');
+const saveProfilesBtn = document.getElementById('save-profile');
 const addBtn = document.getElementById('add-profile');
 const deleteBtn = document.getElementById('delete-profile');
 
@@ -172,7 +172,7 @@ let gridOptions = {
 	}
 };
 
-let eGridDiv = document.querySelector('#profilesGrid');
+let eGridDiv = document.querySelector('#profiles-grid');
 
 // create the grid passing in the div to use together with the columns & data we want to use
 new Grid(eGridDiv, gridOptions);

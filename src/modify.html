@@ -13,37 +13,34 @@
 </head>
 
 <body>
-	<main class='content is-shown'>
-		<div id='load' class='loader'></div>
-		<section class='section is-shown'>
-			<form id='region-form' name='region-form'>
-				<div class='header-fields'>
-					<div class='parameter-name'>
-						<input type="text" id="name" name="name" placeholder="Enter name...">
-					</div>
-					<div class='parameter-type'>
-						<select id="parameter-type-region" name="type">
-							<option value="String" selected>String</option>
-							<option value="StringList">StringList</option>
-							<option value="SecureString">SecureString</option>
-						</select>
-					</div>
+	<main>
+		<form id='region-form' name='region-form'>
+			<div class='header-fields'>
+				<div class='parameter-name'>
+					<input type="text" id="name" name="name" placeholder="Enter name...">
 				</div>
-				<div class='parameter-regions'>
-					<div class='region-header'>Regions</div>
-					<div class='checkboxes'></div>
+				<div class='parameter-type'>
+					<select id="parameter-type-region" name="type">
+						<option value="String" selected>String</option>
+						<option value="StringList">StringList</option>
+						<option value="SecureString">SecureString</option>
+					</select>
 				</div>
-				<div class='parameter-value'>
-					<input type="text" id="value" name="value" placeholder="Enter value...">
-				</div>
-				<div class='parameter-save'>
-					<button id='save-button' type="submit">
-						<span class='save-text'>Save</span>
-						<i class="fas fa-arrow-right"></i>
-					</button>
-				</div>
-			</form>
-		</section>
+			</div>
+			<div class='parameter-regions'>
+				<div class='region-header'>Regions</div>
+				<div class='checkboxes'></div>
+			</div>
+			<div class='parameter-value'>
+				<input type="text" id="value" name="value" placeholder="Enter value...">
+			</div>
+			<div class='parameter-save'>
+				<button id='save-button' type="submit">
+					<span class='save-text'>Save</span>
+					<i class="fas fa-arrow-right"></i>
+				</button>
+			</div>
+		</form>
 	</main>
 </body>
 

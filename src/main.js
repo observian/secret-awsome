@@ -147,7 +147,7 @@ const createProfileWindow = async (width, height, view) => {
 app.on('ready', async () => {
 	await createIndexWindow(1324, 768, 'index.html');
 	await createModifyWindow(1115, 600, 'modify.html');
-	await createProfileWindow(840, 350, 'manage-profiles.html');
+	await createProfileWindow(1000, 400, 'manage-profiles.html');
 });
 
 // Quit when all windows are closed.
