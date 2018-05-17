@@ -17,17 +17,46 @@
 </head>
 
 <body>
-	<main class='content is-shown'>
+	<main>
 		<div id='load'></div>
 		<div class="header">
-			<img src="assets/images/logo.svg" alt="logo" class="logo">
+			<a href='https://observian.com'>
+				<img src="assets/images/logo.svg" alt="logo" class="logo">
+			</a>
 		</div>
-		<select id="profiles" name="allprofiles" class="primary"></select>
-		<button id='get-all-parameters' class='interact'>Refresh</button>
-		<button id='add' class='interact'>Add</button>
-		<button id='delete' class='interact'>Delete</button>
-		<input type="search" id="filter-text-box" class='interact' placeholder="Filter..." />
-		<div id="parameter-grid" class="ag-theme-balham"></div>
+		<div class='content'>
+			<div class='top-control-group'>
+				<div class='profiles'>
+					<select id="profiles" name="allprofiles" class="primary"></select>
+				</div>
+				<button id='delete' class='delete-button'>Delete</button>
+				<div class='filter-group'>
+					<img src="assets/images/searchicon.svg" alt="search icon">
+					<input type="search" id="filter-text-box" class='interact filter' placeholder="Filter..." />
+				</div>
+			</div>
+			<a id='add' href='#'>
+				<img src="assets/images/addbutton.svg" alt="add parameter">
+			</a>
+
+			<div id="parameter-grid" class="ag-theme-balham"></div>
+
+			<div class='footer'>
+				<div>Need help? Check us out at
+					<a href="https://www.observian.com">www.observian.com</a> and join our public slack channel!</div>
+				<div class='social-group'>
+					<a href='https://www.instagram.com/observianhq'>
+						<img src="assets/images/instagram.svg" alt="instagram icon">
+					</a>
+					<a href='https://twitter.com/ObservianHQ'>
+						<img src="assets/images/twitter.svg" alt="twitter icon">
+					</a>
+					<a href='https://www.linkedin.com/company/observian'>
+						<img src="assets/images/linkedin.svg" alt="linkedin icon">
+					</a>
+				</div>
+			</div>
+		</div>
 	</main>
 </body>
 <script>

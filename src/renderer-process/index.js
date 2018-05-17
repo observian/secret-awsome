@@ -10,7 +10,8 @@ import {
 } from '../api/profile';
 
 import {
-	ipcRenderer
+	ipcRenderer,
+	shell
 } from 'electron';
 
 import jquery from 'jquery';
@@ -30,6 +31,12 @@ const {
 window.eval = global.eval = function () {
 	throw new Error('Sorry, this app does not support window.eval().');
 };
+
+// Open links in external browser.
+jquery(document).on('click', 'a[href^="http"]', function (event) {
+	event.preventDefault();
+	shell.openExternal(this.href);
+});
 
 let loader = document.getElementById('load');
 loader.load = function () {
@@ -60,7 +67,6 @@ function loadAll() {
 		});
 }
 
-const getAllParamsBtn = document.getElementById('get-all-parameters');
 const addBtn = document.getElementById('add');
 const deleteBtn = document.getElementById('delete');
 const profilesSelect = document.getElementById('profiles');
@@ -127,10 +133,6 @@ deleteBtn.addEventListener('click', () => {
 		.finally(() => {
 			loader.stop();
 		});
-});
-
-getAllParamsBtn.addEventListener('click', () => {
-	getAllParameters();
 });
 
 addBtn.addEventListener('click', () => {
@@ -255,7 +257,6 @@ function loadProfiles() {
 		})
 		.catch(() => {
 			loader.stop();
-			getAllParamsBtn.disabled = true;
 			addBtn.disabled = true;
 			deleteBtn.disabled = true;
 			profilesSelect.disabled = true;
