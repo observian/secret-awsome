@@ -88,14 +88,47 @@ function cloneClickListener(params) {
 	ipcRenderer.send('modify-open', JSON.stringify(data));
 }
 
+function deleteRows(rows) {
+	loader.load();
+	deleteBtn.disabled = true;
+	deleteParameters(rows)
+		.then(() => {
+			gridOptions.api.updateRowData({
+				remove: rows
+			});
+		})
+		.catch(err => {
+			dialog.showErrorBox('Delete Failed', err.message);
+		})
+		.finally(() => {
+			loader.stop();
+		});
+}
+
+let opt = {
+	type: 'question',
+	buttons: ['Cancel', 'OK'],
+	defaultId: 1,
+	title: 'Delete Parameter?',
+	message: 'Are you sure you wish to delete this parameter?',
+	cancelId: 0
+};
+
+function deleteClickListener(params) {
+	if (params.data) {
+		dialog.showMessageBox(opt, id => {
+			if (id === 1) {
+				deleteRows([params.data]);
+			}
+		});
+	}
+}
+
 function getAllParameters() {
 	loader.load();
 	return getParameters()
 		.then(params => {
 			gridOptions.api.setRowData(params);
-			// gridOptions.api.updateRowData({
-			// 	add: params
-			// });
 		})
 		.catch(err => {
 			console.error(err, err.stack);
@@ -119,20 +152,7 @@ deleteBtn.addEventListener('click', () => {
 		return;
 	}
 
-	loader.load();
-	deleteBtn.disabled = true;
-	deleteParameters(selectedRows)
-		.then(() => {
-			gridOptions.api.updateRowData({
-				remove: selectedRows
-			});
-		})
-		.catch(err => {
-			dialog.showErrorBox('Delete Failed', err.message);
-		})
-		.finally(() => {
-			loader.stop();
-		});
+	deleteRows(selectedRows);
 });
 
 addBtn.addEventListener('click', () => {
@@ -142,22 +162,19 @@ addBtn.addEventListener('click', () => {
 let columnDefs = [{
 		headerName: 'REGION',
 		field: 'Region',
-		checkboxSelection: true
+		checkboxSelection: true,
+		minWidth: 142,
+		maxWidth: 190,
 	},
 	{
 		headerName: 'NAME',
 		field: 'Name',
-		cellRenderer: function (params) {
-			if (!params.data) {
-				return params.value;
-			}
-
-			return `<span class="clickable"><i class="far fa-clone"></i>${params.value}</span>`;
-		},
 	},
 	{
 		headerName: 'TYPE',
-		field: 'Type'
+		field: 'Type',
+		minWidth: 140,
+		maxWidth: 140,
 	},
 	{
 		headerName: 'VALUE',
@@ -171,14 +188,30 @@ let columnDefs = [{
 
 			val = params.data.Type !== 'SecureString' ? params.value : '******';
 
-			return `<span class="clickable"><i class="far fa-edit"></i>${val}</span>`;
+			return `<span>${val}</span>`;
 		},
 		editable: true
 	},
 	{
 		headerName: 'VERSION',
-		field: 'Version'
-	}
+		field: 'Version',
+		maxWidth: 100,
+		minWidth: 100,
+	},
+	{
+		headerName: '',
+		field: 'Controls',
+		minWidth: 180,
+		maxWidth: 180,
+		cellRenderer: function (params) {
+			if (!params.data) {
+				return params.value;
+			}
+
+			return '<span class="controls"><i class="far fa-clone clone"></i><i class="far fa-edit edit"></i><i class="fas fa-trash-alt delete"></i></span>';
+		},
+	},
+
 ];
 
 let gridOptions = {
@@ -192,14 +225,38 @@ let gridOptions = {
 	rowHeight: 60,
 	headerHeight: 60,
 	onGridReady: function (params) {
-		params.columnApi.autoSizeAllColumns();
+		params.api.sizeColumnsToFit();
+
+		window.addEventListener('resize', function () {
+			setTimeout(function () {
+				params.api.sizeColumnsToFit();
+			});
+		});
 	},
-	onRowGroupOpened: function (params) {
-		params.columnApi.autoSizeAllColumns();
+	onRowDataChanged: function (params) {
+		params.api.sizeColumnsToFit();
 	},
 	onCellClicked: function (params) {
-		if (params.colDef.field === 'Name') {
-			cloneClickListener(params);
+		if (params.colDef.field === 'Controls' && params.event.path.length > 0) {
+			let node = params.event.path.find(item => {
+				return item && item.nodeName === 'svg';
+			});
+
+			if (!node) {
+				return;
+			}
+
+			let classList = node.classList;
+			if (classList.contains('edit')) {
+				params.api.startEditingCell({
+					rowIndex: params.node.rowIndex,
+					colKey: 'Value'
+				});
+			} else if (classList.contains('clone')) {
+				cloneClickListener(params);
+			} else if (classList.contains('delete')) {
+				deleteClickListener(params);
+			}
 		}
 	},
 	onCellValueChanged: function (params) {

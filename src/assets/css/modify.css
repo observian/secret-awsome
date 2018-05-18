@@ -65,12 +65,13 @@ select {
 	padding: 3px 0px;
 }
 
-.parameter-save {
+.footer-fields {
 	display: flex;
 	flex-direction: row-reverse;
+	margin-top: 40px;
 }
 
-#save-button {
+button {
 	display: flex;
 	justify-content: space-between;
 	height: 43px;
@@ -80,9 +81,14 @@ select {
 	font-size: 14px;
 	background: linear-gradient(257.61deg, #FFFFFF 0%, #EDEDED 100%);
 	border-style: none;
-	margin-top: 40px;
 	padding: 0px 30px;
 	cursor: pointer;
+}
+
+#cancel-modify {
+	justify-content: center;
+	width: 130px;
+	margin: 0px 20px 0px 0px;
 }
 
 .fa-arrow-right {

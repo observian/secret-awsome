@@ -148,8 +148,28 @@ main {
 	background-color: rgba(0, 0, 0, 0);
 	font-family: 'Source Sans Pro';
 	font-size: 19px;
+	color: #DCE1E0;
 }
 
 .ag-cell-inline-editing {
 	background: rgba(0, 0, 0, 0) !important;
+}
+
+.controls {
+	border-style: none none none solid;
+	border-width: 1px;
+	border-color: #214965;
+	cursor: pointer;
+	display: none;
+}
+
+.ag-row:hover .controls {
+	display: flex;
+	justify-content: space-around;
+	height: 100%;
+	align-items: center;
+}
+
+.ag-theme-balham .ag-cell-focus {
+	border-color: rgba(0, 0, 0, 0);
 }

@@ -1772,7 +1772,7 @@ ag-grid-aurelia {
 .ag-theme-balham {
   background-color: rgba(0, 0, 0, 0);
   color: #DCE1E0;
-  font: 400 12px "Source Sans Pro", sans-serif; }
+  font: 400 12px "Source Sans Pro"; }
   .ag-theme-balham .ag-header,
   .ag-theme-balham .ag-row,
   .ag-theme-balham .ag-header-cell,
@@ -2228,7 +2228,7 @@ ag-grid-aurelia {
   .ag-theme-balham .ag-row-even {
     background-color: rgba(0, 0, 0, 0); }
   .ag-theme-balham .ag-row-hover {
-    background-color: #748DAB; }
+    background-color: #ECF0F1; }
   .ag-theme-balham .ag-numeric-cell {
     text-align: right; }
   .ag-theme-balham .ag-header-cell-label {
@@ -2757,7 +2757,7 @@ ag-grid-aurelia {
         display: table-cell;
         vertical-align: middle; }
     .ag-theme-balham .ag-menu .ag-menu-option-active {
-      background: #748DAB; }
+      background: #ECF0F1; }
     .ag-theme-balham .ag-menu .ag-menu-option-disabled {
       opacity: 0.5; }
     .ag-theme-balham .ag-menu .ag-menu-option-icon {
@@ -2892,7 +2892,7 @@ ag-grid-aurelia {
     flex-shrink: 1;
     padding-right: 4px; }
   .ag-theme-balham .ag-column-tool-panel-item button {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Source Sans Pro";
     font-size: 12px;
     height: 100%; }
   .ag-theme-balham .ag-filter-filter {
@@ -3110,9 +3110,9 @@ ag-grid-aurelia {
     opacity: 0.87;
     width: 16px; }
   .ag-theme-balham .ag-row-selected {
-    background-color: #748DAB; }
+    background-color: #b7e4ff; }
   .ag-theme-balham .ag-cell-range-selected:not(.ag-cell-focus) {
-    background-color: #748DAB; }
+    background-color: rgba(0, 145, 234, 0.2); }
   .ag-theme-balham .ag-cell-inline-editing {
     background: rgba(0, 0, 0, 0);
     border-radius: 2px;
@@ -3153,11 +3153,11 @@ ag-grid-aurelia {
       height: 28px;
       line-height: 28px; }
       .ag-theme-balham .ag-rich-select .ag-virtual-list-item:hover {
-        background-color: #748DAB; }
+        background-color: #ECF0F1; }
     .ag-theme-balham .ag-rich-select .ag-rich-select-row {
       padding-left: 12px; }
     .ag-theme-balham .ag-rich-select .ag-rich-select-row-selected {
-      background-color: #748DAB; }
+      background-color: #b7e4ff; }
   .ag-theme-balham .ag-floating-filter-body {
     float: left;
     height: 100%;
@@ -3500,7 +3500,7 @@ ag-grid-aurelia {
     background-color: rgba(0, 0, 0, 0);
     border-bottom: 1px solid rgba(0, 0, 0, 0); }
   .ag-theme-balham .ag-cell-highlight {
-    background-color: #748DAB !important; }
+    background-color: #0091EA !important; }
   .ag-theme-balham .ag-header-cell-resize {
     right: -3px; }
   .ag-theme-balham .ag-rtl .ag-header .ag-header-cell-resize {
@@ -3526,7 +3526,7 @@ ag-grid-aurelia {
   .ag-theme-balham .ag-row {
     border-bottom-color: rgba(26, 26, 26, 0); }
   .ag-theme-balham .ag-row-selected {
-    border-bottom-color: #748DAB; }
+    border-bottom-color: #b7e4ff; }
   .ag-theme-balham .ag-row-drag {
     background-position-y: center; }
   .ag-theme-balham .ag-column-drag {
@@ -3631,25 +3631,19 @@ ag-grid-aurelia {
     color: #DCE1E0;
     padding: 16px; }
   .ag-theme-balham .ag-cell-range-selected-1:not(.ag-cell-focus) {
-    background-color: #748dab; }
+    background-color: rgba(0, 145, 234, 0.3); }
   .ag-theme-balham .ag-cell-range-selected-2:not(.ag-cell-focus) {
-    background-color: #748dab; }
+    background-color: rgba(0, 145, 234, 0.4); }
   .ag-theme-balham .ag-cell-range-selected-3:not(.ag-cell-focus) {
-    background-color: #748dab; }
+    background-color: rgba(0, 145, 234, 0.5); }
   .ag-theme-balham .ag-cell-range-selected-4:not(.ag-cell-focus) {
-    background-color: #748dab; }
+    background-color: rgba(0, 145, 234, 0.6); }
   .ag-theme-balham .ag-rich-select-value {
     border-bottom: 1px solid rgba(0, 0, 0, 0); }
   .ag-theme-balham .ag-filter-apply-panel {
     border-top: 1px solid rgba(0, 0, 0, 0); }
   .ag-theme-balham .ag-header-cell-moving {
     background-color: white; }
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%; }
 
 .ag-icon-checkbox-checked {
   background-image: url("../images/boxchecked.svg") !important;

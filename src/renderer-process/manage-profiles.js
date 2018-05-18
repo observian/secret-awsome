@@ -22,6 +22,7 @@ const {
 const saveProfilesBtn = document.getElementById('save-profile');
 const addBtn = document.getElementById('add-profile');
 const deleteBtn = document.getElementById('delete-profile');
+const cancelBtn = document.getElementById('cancel-profile');
 
 function getAllProfiles() {
 	return getProfiles()
@@ -55,8 +56,8 @@ saveProfilesBtn.addEventListener('click', () => {
 				profiles.push(node.data);
 			});
 			saveProfiles(profiles);
-			ipcRenderer.send('profile-done');
 			ipcRenderer.send('reload-index');
+			saveProfilesBtn.blur();
 		}
 	});
 
@@ -83,6 +84,11 @@ addBtn.addEventListener('click', () => {
 			aws_secret_access_key: ''
 		}]
 	});
+});
+
+cancelBtn.addEventListener('click', () => {
+	ipcRenderer.send('profile-done');
+	cancelBtn.blur();
 });
 
 let columnDefs = [{

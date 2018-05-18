@@ -14,33 +14,12 @@ $secondary-font-family: "Open Sans";
 $secondary-font-size: 14px;
 $secondary-font-weight: 600;
 $secondary-foreground-color: #C4C8C8;
-$hover-color: #748DAB;
-$ag-range-selected-color-1: #748DAB;
-$range-selection-background-color: #748DAB;
-$range-selection-highlight-color: #748DAB;
-$selected-color: #748DAB;
 $icon-color: #C4C8C8;
 $alt-icon-color: #C4C8C8;
-//$accent-color:white !default;
-// Changes the font family
-$font-family: "Source Sans Pro",
-sans-serif;
-// Reverts the cell horizontal padding change between ag-fresh and ag-theme-fresh
-// $cell-horizontal-padding: 2px;
-// changes the default icon color
-//$icon-color: #303f9f;
-// changes the selected checkbox color
-//$accent-color: #ffa000;
+$focused-cell-border-color: $background-color;
+$font-family: "Source Sans Pro";
 @import "../../../node_modules/ag-grid/src/styles/ag-grid.scss";
 @import "../../../node_modules/ag-grid/src/styles/ag-theme-balham.scss";
-// for example purposes, remove margin and padding of the grid
-html,
-body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-}
-
 .ag-icon-checkbox-checked {
 	background-image: url('../images/boxchecked.svg') !important;
 	background-size: 20px 20px !important;

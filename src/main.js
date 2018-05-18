@@ -6,10 +6,6 @@ import {
 import installExtension, {
 	JQUERY_DEBUGGER,
 } from 'electron-devtools-installer';
-import {
-	enableLiveReload,
-} from 'electron-compile';
-
 
 import {
 	join
@@ -33,10 +29,6 @@ let indexWindow = {};
 let modifyWindow = {};
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
-
-if (isDevMode) {
-	//	enableLiveReload();
-}
 
 const createIndexWindow = async (width, height, view) => {
 	// Create the browser window.
@@ -78,9 +70,10 @@ const createModifyWindow = async (width, height, view) => {
 		width: width,
 		height: height,
 		parent: indexWindow,
-		modal: false,
+		modal: true,
 		show: false,
-		resizable: true
+		resizable: false,
+		center: true
 	});
 
 	// and load the index.html of the app.
@@ -113,8 +106,10 @@ const createProfileWindow = async (width, height, view) => {
 		width: width,
 		height: height,
 		parent: indexWindow,
-		modal: false,
-		show: false
+		modal: true,
+		show: false,
+		center: true,
+		resizable: false
 	});
 
 	// and load the index.html of the app.
@@ -145,7 +140,7 @@ const createProfileWindow = async (width, height, view) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-	await createIndexWindow(1324, 768, 'index.html');
+	await createIndexWindow(1325, 820, 'index.html');
 	await createModifyWindow(1115, 600, 'modify.html');
 	await createProfileWindow(1000, 400, 'manage-profiles.html');
 });
@@ -163,7 +158,7 @@ app.on('activate', async () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (!indexWindow) {
-		await createIndexWindow(1324, 768, 'index.html');
+		await createIndexWindow(1325, 820, 'index.html');
 	}
 });
 

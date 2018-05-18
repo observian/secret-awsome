@@ -8,6 +8,9 @@ main {
 	font-size: 18px;
 	color: #DCE1E0;
 	background: linear-gradient(55.05deg, #172A3F 0%, #344960 100%);
+	margin: 0;
+	padding: 0;
+	height: 100%;
 	/* box-shadow: 0 10px 40px 0 rgba(20, 22, 25, 0.28); */
 }
 
@@ -30,6 +33,7 @@ select {
 	display: flex;
 	flex-flow: column;
 	height: 100%;
+	margin-top: 20px;
 }
 
 button {
@@ -68,7 +72,8 @@ button {
 }
 
 #add-profile,
-#delete-profile {
+#delete-profile,
+#cancel-profile {
 	justify-content: center;
 	width: 130px;
 	margin: 0px 20px 0px 0px;
@@ -91,8 +96,13 @@ button {
 	background-color: rgba(0, 0, 0, 0);
 	font-family: 'Source Sans Pro';
 	font-size: 14px;
+	color: #DCE1E0;
 }
 
 .ag-cell-inline-editing {
 	background: rgba(0, 0, 0, 0) !important;
+}
+
+.ag-theme-balham .ag-cell-focus {
+	border-color: rgba(0, 0, 0, 0);
 }

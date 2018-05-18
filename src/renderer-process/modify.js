@@ -4,8 +4,13 @@ import {
 } from '../api/ssm';
 
 import {
-	ipcRenderer
+	ipcRenderer,
+	remote
 } from 'electron';
+
+const {
+	dialog
+} = remote;
 
 import Promise from 'bluebird';
 
@@ -36,10 +41,11 @@ function saveForm() {
 
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
+			document.getElementById('save-parameters').blur();
 			ipcRenderer.send('reload-index', JSON.stringify(result));
 		})
 		.catch(err => {
-			console.error(err, err.stack);
+			dialog.showErrorBox('Save Failed', err.message);
 		});
 
 	return false;
@@ -47,6 +53,13 @@ function saveForm() {
 
 let regionForm = jquery('#region-form');
 regionForm.submit(saveForm);
+
+const cancelBtn = document.getElementById('cancel-modify');
+
+cancelBtn.addEventListener('click', () => {
+	ipcRenderer.send('modify-done');
+	cancelBtn.blur();
+});
 
 function setValues(obj) {
 	let prom;
