@@ -1,6 +1,6 @@
 {
 	"name": "aws-ssm-parameter-manager",
-	"productName": "Parameters",
+	"productName": "Secret AWS-ome",
 	"version": "0.7.0",
 	"description": "Easily manage AWS SSM Parameter Store items across regions",
 	"main": "src/main.js",
@@ -78,17 +78,17 @@
 				"osxSign": true
 			},
 			"electronWinstallerConfig": {
-				"name": "Parameters",
+				"name": "SecretAWS-ome",
 				"iconUrl": "./src/assets/images/icon.ico"
 			},
 			"electronInstallerDebian": {
-				"name": "Parameters"
+				"name": "SecretAWS-ome"
 			},
 			"electronInstallerFlatpak": {
-				"name": "Parameters"
+				"name": "SecretAWS-ome"
 			},
 			"electronInstallerRedhat": {
-				"name": "Parameters"
+				"name": "SecretAWS-ome"
 			},
 			"github_repository": {
 				"owner": "observian",
