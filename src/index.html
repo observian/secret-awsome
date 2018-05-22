@@ -13,12 +13,12 @@
 	<link rel="stylesheet" href="../node_modules/ag-grid/dist/styles/compiled-icons.css">
 	<link rel="stylesheet" href="assets/css/ag-grid-parameters.css">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="import" href="templates/loading-icon.html">
 	<script defer src='assets/lib/fontawesome-all.min.js'></script>
 </head>
 
 <body>
 	<main>
-		<div id='load'></div>
 		<div class="header">
 			<a href='https://observian.com'>
 				<img src="assets/images/logo.svg" alt="logo" class="logo">
@@ -58,6 +58,8 @@
 			</div>
 		</div>
 	</main>
+	<script src='assets/lib/tweenmax.min.js'></script>
+	<script src='assets/lib/drawsvgplugin.min.js'></script>
 </body>
 <script>
 	require('./assets/imports');

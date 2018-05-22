@@ -24,6 +24,10 @@ import {
 	remote
 } from 'electron';
 
+import {
+	timeline
+} from '../assets/lib/loader';
+
 const {
 	dialog
 } = remote;
@@ -32,22 +36,25 @@ window.eval = global.eval = function () {
 	throw new Error('Sorry, this app does not support window.eval().');
 };
 
+let loader = document.querySelector('.loader-icon');
+
+function load() {
+	loader.style.visibility = 'visible';
+	timeline.restart();
+	jquery('.interact').prop('disabled', false);
+}
+
+function stop() {
+	loader.style.visibility = 'hidden';
+	timeline.stop();
+	jquery('.interact').prop('disabled', true);
+}
+
 // Open links in external browser.
 jquery(document).on('click', 'a[href^="http"]', function (event) {
 	event.preventDefault();
 	shell.openExternal(this.href);
 });
-
-let loader = document.getElementById('load');
-loader.load = function () {
-	this.style.visibility = 'visible';
-	jquery('.interact').prop('disabled', true);
-};
-
-loader.stop = function () {
-	this.style.visibility = 'hidden';
-	jquery('.interact').prop('disabled', false);
-};
 
 ipcRenderer.on('reload', () => {
 	loadAll();
@@ -89,7 +96,7 @@ function cloneClickListener(params) {
 }
 
 function deleteRows(rows) {
-	loader.load();
+	load();
 	deleteBtn.disabled = true;
 	deleteParameters(rows)
 		.then(() => {
@@ -101,7 +108,7 @@ function deleteRows(rows) {
 			dialog.showErrorBox('Delete Failed', err.message);
 		})
 		.finally(() => {
-			loader.stop();
+			stop();
 		});
 }
 
@@ -125,7 +132,7 @@ function deleteClickListener(params) {
 }
 
 function getAllParameters() {
-	loader.load();
+	load();
 	return getParameters()
 		.then(params => {
 			gridOptions.api.setRowData(params);
@@ -135,7 +142,7 @@ function getAllParameters() {
 		})
 		.finally(() => {
 			gridOptions.columnApi.autoSizeAllColumns();
-			loader.stop();
+			stop();
 		});
 }
 
@@ -292,7 +299,7 @@ function loadProfiles() {
 		.then(profiles => {
 			profilesSelect.options.length = 0;
 			if (!profiles || profiles.length === 0) {
-				loader.stop();
+				stop();
 				return false;
 			}
 
@@ -313,7 +320,7 @@ function loadProfiles() {
 			return true;
 		})
 		.catch(() => {
-			loader.stop();
+			stop();
 			addBtn.disabled = true;
 			deleteBtn.disabled = true;
 			profilesSelect.disabled = true;

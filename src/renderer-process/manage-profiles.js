@@ -56,6 +56,7 @@ saveProfilesBtn.addEventListener('click', () => {
 				profiles.push(node.data);
 			});
 			saveProfiles(profiles);
+			ipcRenderer.send('profile-done');
 			ipcRenderer.send('reload-index');
 			saveProfilesBtn.blur();
 		}

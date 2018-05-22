@@ -51,3 +51,14 @@
 	font-weight: 600;
 	src: local('Montserrat SemiBold'), local('Montserrat-SemiBold'), url('../fonts/montserrat-v12-latin-600.woff2') format('woff2');
 }
+
+.loader-icon {
+	height: 76px;
+	width: 76px;
+	position: absolute;
+	left: 50%;
+	margin-left: -38px;
+	top: 50%;
+	margin-top: -38px;
+	z-index: 99999;
+}

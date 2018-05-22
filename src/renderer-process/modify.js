@@ -17,22 +17,29 @@ import Promise from 'bluebird';
 import jquery from 'jquery';
 
 import {
+	timeline
+} from '../assets/lib/loader';
+
+import {
 	parse
 } from 'query-string';
 
-// let loader = document.getElementById('load');
-// loader.load = function () {
-// 	this.style.visibility = 'visible';
-// 	jquery('#region-form>button').prop('disabled', true);
-// };
+let loader = document.querySelector('.loader-icon');
 
-// loader.stop = function () {
-// 	this.style.visibility = 'hidden';
-// 	jquery('#region-form>button').prop('disabled', false);
-// };
+function load() {
+	loader.style.visibility = 'visible';
+	timeline.restart();
+	jquery('.interact').prop('disabled', false);
+}
+
+function stop() {
+	loader.style.visibility = 'hidden';
+	timeline.stop();
+	jquery('.interact').prop('disabled', true);
+}
 
 function saveForm() {
-	//	loader.load();
+	load();
 	let data = parse(jquery(this).serialize());
 
 	if (!jquery.isArray(data.region)) {
@@ -42,10 +49,14 @@ function saveForm() {
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
 			document.getElementById('save-parameters').blur();
+			ipcRenderer.send('modify-done');
 			ipcRenderer.send('reload-index', JSON.stringify(result));
 		})
 		.catch(err => {
 			dialog.showErrorBox('Save Failed', err.message);
+		})
+		.finally(() => {
+			stop();
 		});
 
 	return false;
@@ -104,13 +115,12 @@ function setValues(obj) {
 }
 
 ipcRenderer.on('open-message', (event, arg) => {
-	//	loader.load();
+	load();
 
 	let obj = JSON.parse(arg);
 
 	setValues(obj)
 		.finally(() => {
-			//			loader.stop();
+			stop();
 		});
-
 });
