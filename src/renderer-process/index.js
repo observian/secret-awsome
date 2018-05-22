@@ -50,6 +50,16 @@ function stop() {
 	jquery('.interact').prop('disabled', true);
 }
 
+class CustomLoadingOverlay {
+	constructor() {}
+	init() {
+		this.eGui = document.createElement('div');
+	}
+	getGui() {
+		return this.eGui;
+	}
+}
+
 // Open links in external browser.
 jquery(document).on('click', 'a[href^="http"]', function (event) {
 	event.preventDefault();
@@ -138,6 +148,8 @@ function getAllParameters() {
 			gridOptions.api.setRowData(params);
 		})
 		.catch(err => {
+			dialog.showErrorBox('Request Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
+			gridOptions.api.setRowData([]);
 			console.error(err, err.stack);
 		})
 		.finally(() => {
@@ -197,6 +209,7 @@ let columnDefs = [{
 
 			return `<span>${val}</span>`;
 		},
+		suppressCellFlash: true,
 		editable: true
 	},
 	{
@@ -224,13 +237,18 @@ let columnDefs = [{
 let gridOptions = {
 	columnDefs: columnDefs,
 	animateRows: true,
-	rowData: null,
+	rowData: [],
 	enableColResize: true,
 	enableSorting: true,
 	singleClickEdit: true,
+	enableCellChangeFlash: true,
 	rowSelection: 'multiple',
 	rowHeight: 60,
 	headerHeight: 60,
+	components: {
+		customLoadingOverlay: CustomLoadingOverlay
+	},
+	loadingOverlayComponent: 'customLoadingOverlay',
 	onGridReady: function (params) {
 		params.api.sizeColumnsToFit();
 
@@ -283,7 +301,7 @@ let gridOptions = {
 				params.api.updateRowData({
 					update: [params.data]
 				});
-				dialog.showErrorBox('Update Failed', 'Please make sure your credentials are correct and you have an internet connection.');
+				dialog.showErrorBox('Update Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
 				console.error(err, err.stack);
 			});
 	}

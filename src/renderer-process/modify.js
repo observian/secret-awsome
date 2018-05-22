@@ -53,7 +53,8 @@ function saveForm() {
 			ipcRenderer.send('reload-index', JSON.stringify(result));
 		})
 		.catch(err => {
-			dialog.showErrorBox('Save Failed', err.message);
+			dialog.showErrorBox('Save Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
+			console.error(err, err.stack);
 		})
 		.finally(() => {
 			stop();

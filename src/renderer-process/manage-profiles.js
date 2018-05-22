@@ -30,6 +30,8 @@ function getAllProfiles() {
 			gridOptions.api.setRowData(profiles);
 		})
 		.catch(err => {
+			dialog.showErrorBox('Unable to Read Profiles', err.message);
+
 			console.error(err, err.stack);
 		})
 		.finally(() => {

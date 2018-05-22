@@ -1,6 +1,7 @@
 import {
 	app,
-	BrowserWindow
+	BrowserWindow,
+	dialog
 } from 'electron';
 
 import installExtension, {
@@ -61,6 +62,14 @@ const createIndexWindow = async (width, height, view) => {
 		profileWindow = null;
 	});
 
+	indexWindow.webContents.on('crashed', crash => {
+		dialog.showErrorBox('An applicatoin exception occurred', crash);
+	});
+
+	indexWindow.on('unresponsive', () => {
+		dialog.showErrorBox('The application has become unresponsive.');
+	});
+
 	global.indexWindow = indexWindow;
 };
 
@@ -94,6 +103,14 @@ const createModifyWindow = async (width, height, view) => {
 	modifyWindow.on('close', ev => {
 		ev.preventDefault();
 		modifyWindow.hide();
+	});
+
+	modifyWindow.webContents.on('crashed', crash => {
+		dialog.showErrorBox('An applicatoin exception occurred', crash);
+	});
+
+	modifyWindow.on('unresponsive', () => {
+		dialog.showErrorBox('The application has become unresponsive.');
 	});
 
 	global.modifyWindow = modifyWindow;
@@ -130,6 +147,14 @@ const createProfileWindow = async (width, height, view) => {
 	profileWindow.on('close', ev => {
 		ev.preventDefault();
 		profileWindow.hide();
+	});
+
+	profileWindow.webContents.on('crashed', crash => {
+		dialog.showErrorBox('An applicatoin exception occurred', crash);
+	});
+
+	profileWindow.on('unresponsive', () => {
+		dialog.showErrorBox('The application has become unresponsive.');
 	});
 
 	global.profileWindow = profileWindow;
@@ -178,6 +203,10 @@ function loadMain() {
 		require(file);
 	});
 }
+
+process.on('uncaughtException', err => {
+	dialog.showErrorBox('An application exception occurred.', err.message);
+});
 
 loadMain();
 
