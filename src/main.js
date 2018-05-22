@@ -35,7 +35,9 @@ const createIndexWindow = async (width, height, view) => {
 	// Create the browser window.
 	indexWindow = new BrowserWindow({
 		width: width,
-		height: height
+		height: height,
+		minWidth: 845,
+		minHeight: 400
 	});
 
 	// and load the index.html of the app.
@@ -165,7 +167,7 @@ const createProfileWindow = async (width, height, view) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-	await createIndexWindow(1325, 820, 'index.html');
+	await createIndexWindow(1325, 760, 'index.html');
 	await createModifyWindow(1115, 600, 'modify.html');
 	await createProfileWindow(1000, 400, 'manage-profiles.html');
 });

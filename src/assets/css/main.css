@@ -46,6 +46,14 @@ main {
 	margin: 31px 0px 31px 71px;
 }
 
+.app-name {
+	position: absolute;
+	left: 50%;
+	top: 10px;
+	color: white;
+	margin-left: -126px;
+}
+
 .profiles {
 	border-style: solid;
 	border-width: 2px;

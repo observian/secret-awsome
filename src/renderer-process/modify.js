@@ -29,13 +29,13 @@ let loader = document.querySelector('.loader-icon');
 function load() {
 	loader.style.visibility = 'visible';
 	timeline.restart();
-	jquery('.interact').prop('disabled', false);
+	jquery('.interact').prop('disabled', true);
 }
 
 function stop() {
 	loader.style.visibility = 'hidden';
 	timeline.stop();
-	jquery('.interact').prop('disabled', true);
+	jquery('.interact').prop('disabled', false);
 }
 
 function saveForm() {
