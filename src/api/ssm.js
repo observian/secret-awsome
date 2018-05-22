@@ -71,10 +71,6 @@ function recursiveGet(path, region) {
 					}
 				}
 				return innerget();
-			})
-			.catch(err => {
-				console.error(err, err.stack);
-				return values;
 			});
 	}
 

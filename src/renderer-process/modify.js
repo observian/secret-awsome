@@ -4,30 +4,42 @@ import {
 } from '../api/ssm';
 
 import {
-	ipcRenderer
+	ipcRenderer,
+	remote
 } from 'electron';
+
+const {
+	dialog
+} = remote;
 
 import Promise from 'bluebird';
 
 import jquery from 'jquery';
 
 import {
+	timeline
+} from '../assets/lib/loader';
+
+import {
 	parse
 } from 'query-string';
 
-let loader = document.getElementById('load');
-loader.load = function () {
-	this.style.visibility = 'visible';
-	jquery('#region-form>button').prop('disabled', true);
-};
+let loader = document.querySelector('.loader-icon');
 
-loader.stop = function () {
-	this.style.visibility = 'hidden';
-	jquery('#region-form>button').prop('disabled', false);
-};
+function load() {
+	loader.style.visibility = 'visible';
+	timeline.restart();
+	jquery('.interact').prop('disabled', true);
+}
+
+function stop() {
+	loader.style.visibility = 'hidden';
+	timeline.stop();
+	jquery('.interact').prop('disabled', false);
+}
 
 function saveForm() {
-	loader.load();
+	load();
 	let data = parse(jquery(this).serialize());
 
 	if (!jquery.isArray(data.region)) {
@@ -36,10 +48,16 @@ function saveForm() {
 
 	updateParameters(data.name, data.type, data.value, data.region)
 		.then(result => {
+			document.getElementById('save-parameters').blur();
+			ipcRenderer.send('modify-done');
 			ipcRenderer.send('reload-index', JSON.stringify(result));
 		})
 		.catch(err => {
+			dialog.showErrorBox('Save Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
 			console.error(err, err.stack);
+		})
+		.finally(() => {
+			stop();
 		});
 
 	return false;
@@ -48,14 +66,20 @@ function saveForm() {
 let regionForm = jquery('#region-form');
 regionForm.submit(saveForm);
 
+const cancelBtn = document.getElementById('cancel-modify');
+
+cancelBtn.addEventListener('click', () => {
+	ipcRenderer.send('modify-done');
+	cancelBtn.blur();
+});
+
 function setValues(obj) {
 	let prom;
 
 	prom = Promise.try(() => {
 		regionForm[0].reset();
 
-		let fs = jquery('#region-fieldset').empty();
-		fs.append('<legend>Regions</legend>');
+		let fs = jquery('.checkboxes').empty();
 
 		for (let i = 0; i < defaultRegions.regions.length; i++) {
 			const reg = defaultRegions.regions[i];
@@ -65,7 +89,6 @@ function setValues(obj) {
 		<label for="${reg.region}">${reg.displayname} (${reg.region})</label>
 	</div>`);
 		}
-
 
 		jquery('#name').prop('readonly', false);
 		jquery('#parameter-type-region option').prop('disabled', false).prop('selected', false);
@@ -93,13 +116,12 @@ function setValues(obj) {
 }
 
 ipcRenderer.on('open-message', (event, arg) => {
-	loader.load();
+	load();
 
 	let obj = JSON.parse(arg);
 
 	setValues(obj)
 		.finally(() => {
-			loader.stop();
+			stop();
 		});
-
 });

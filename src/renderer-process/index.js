@@ -10,7 +10,8 @@ import {
 } from '../api/profile';
 
 import {
-	ipcRenderer
+	ipcRenderer,
+	shell
 } from 'electron';
 
 import jquery from 'jquery';
@@ -23,20 +24,47 @@ import {
 	remote
 } from 'electron';
 
+import {
+	timeline
+} from '../assets/lib/loader';
+
 const {
 	dialog
 } = remote;
 
-let loader = document.getElementById('load');
-loader.load = function () {
-	this.style.visibility = 'visible';
-	jquery('.interact').prop('disabled', true);
+window.eval = global.eval = function () {
+	throw new Error('Sorry, this app does not support window.eval().');
 };
 
-loader.stop = function () {
-	this.style.visibility = 'hidden';
+let loader = document.querySelector('.loader-icon');
+
+function load() {
+	loader.style.visibility = 'visible';
+	timeline.restart();
+	jquery('.interact').prop('disabled', true);
+}
+
+function stop() {
+	loader.style.visibility = 'hidden';
+	timeline.stop();
 	jquery('.interact').prop('disabled', false);
-};
+}
+
+class CustomLoadingOverlay {
+	constructor() {}
+	init() {
+		this.eGui = document.createElement('div');
+	}
+	getGui() {
+		return this.eGui;
+	}
+}
+
+// Open links in external browser.
+jquery(document).on('click', 'a[href^="http"]', function (event) {
+	event.preventDefault();
+	shell.openExternal(this.href);
+});
 
 ipcRenderer.on('reload', () => {
 	loadAll();
@@ -56,7 +84,6 @@ function loadAll() {
 		});
 }
 
-const getAllParamsBtn = document.getElementById('get-all-parameters');
 const addBtn = document.getElementById('add');
 const deleteBtn = document.getElementById('delete');
 const profilesSelect = document.getElementById('profiles');
@@ -78,21 +105,56 @@ function cloneClickListener(params) {
 	ipcRenderer.send('modify-open', JSON.stringify(data));
 }
 
+function deleteRows(rows) {
+	load();
+	deleteBtn.disabled = true;
+	deleteParameters(rows)
+		.then(() => {
+			gridOptions.api.updateRowData({
+				remove: rows
+			});
+		})
+		.catch(err => {
+			dialog.showErrorBox('Delete Failed', err.message);
+		})
+		.finally(() => {
+			stop();
+		});
+}
+
+let opt = {
+	type: 'question',
+	buttons: ['Cancel', 'OK'],
+	defaultId: 1,
+	title: 'Delete Parameter?',
+	message: 'Are you sure you wish to delete this parameter?',
+	cancelId: 0
+};
+
+function deleteClickListener(params) {
+	if (params.data) {
+		dialog.showMessageBox(opt, id => {
+			if (id === 1) {
+				deleteRows([params.data]);
+			}
+		});
+	}
+}
+
 function getAllParameters() {
-	loader.load();
+	load();
 	return getParameters()
 		.then(params => {
 			gridOptions.api.setRowData(params);
-			// gridOptions.api.updateRowData({
-			// 	add: params
-			// });
 		})
 		.catch(err => {
+			dialog.showErrorBox('Request Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
+			gridOptions.api.setRowData([]);
 			console.error(err, err.stack);
 		})
 		.finally(() => {
 			gridOptions.columnApi.autoSizeAllColumns();
-			loader.stop();
+			stop();
 		});
 }
 
@@ -109,24 +171,7 @@ deleteBtn.addEventListener('click', () => {
 		return;
 	}
 
-	loader.load();
-	deleteBtn.disabled = true;
-	deleteParameters(selectedRows)
-		.then(() => {
-			gridOptions.api.updateRowData({
-				remove: selectedRows
-			});
-		})
-		.catch(err => {
-			dialog.showErrorBox('Delete Failed', err.message);
-		})
-		.finally(() => {
-			loader.stop();
-		});
-});
-
-getAllParamsBtn.addEventListener('click', () => {
-	getAllParameters();
+	deleteRows(selectedRows);
 });
 
 addBtn.addEventListener('click', () => {
@@ -134,27 +179,24 @@ addBtn.addEventListener('click', () => {
 });
 
 let columnDefs = [{
-		headerName: 'Region',
+		headerName: 'REGION',
 		field: 'Region',
-		checkboxSelection: true
+		checkboxSelection: true,
+		minWidth: 142,
+		maxWidth: 190,
 	},
 	{
-		headerName: 'Name',
+		headerName: 'NAME',
 		field: 'Name',
-		cellRenderer: function (params) {
-			if (!params.data) {
-				return params.value;
-			}
-
-			return `<span class="clickable"><i class="far fa-clone"></i>${params.value}</span>`;
-		},
 	},
 	{
-		headerName: 'Type',
-		field: 'Type'
+		headerName: 'TYPE',
+		field: 'Type',
+		minWidth: 140,
+		maxWidth: 140,
 	},
 	{
-		headerName: 'Value',
+		headerName: 'VALUE',
 		field: 'Value',
 		cellRenderer: function (params) {
 			let val;
@@ -165,33 +207,81 @@ let columnDefs = [{
 
 			val = params.data.Type !== 'SecureString' ? params.value : '******';
 
-			return `<span class="clickable"><i class="far fa-edit"></i>${val}</span>`;
+			return `<span>${val}</span>`;
 		},
+		suppressCellFlash: true,
 		editable: true
 	},
 	{
-		headerName: 'Version',
-		field: 'Version'
-	}
+		headerName: 'VERSION',
+		field: 'Version',
+		maxWidth: 100,
+		minWidth: 100,
+	},
+	{
+		headerName: '',
+		field: 'Controls',
+		minWidth: 180,
+		maxWidth: 180,
+		cellRenderer: function (params) {
+			if (!params.data) {
+				return params.value;
+			}
+
+			return '<span class="controls"><i class="far fa-clone clone"></i><i class="far fa-edit edit"></i><i class="fas fa-trash-alt delete"></i></span>';
+		},
+	},
+
 ];
 
 let gridOptions = {
 	columnDefs: columnDefs,
 	animateRows: true,
-	rowData: null,
+	rowData: [],
 	enableColResize: true,
 	enableSorting: true,
 	singleClickEdit: true,
+	enableCellChangeFlash: true,
 	rowSelection: 'multiple',
-	onGridReady: function (params) {
-		params.columnApi.autoSizeAllColumns();
+	rowHeight: 60,
+	headerHeight: 60,
+	components: {
+		customLoadingOverlay: CustomLoadingOverlay
 	},
-	onRowGroupOpened: function (params) {
-		params.columnApi.autoSizeAllColumns();
+	loadingOverlayComponent: 'customLoadingOverlay',
+	onGridReady: function (params) {
+		params.api.sizeColumnsToFit();
+
+		window.addEventListener('resize', function () {
+			setTimeout(function () {
+				params.api.sizeColumnsToFit();
+			});
+		});
+	},
+	onRowDataChanged: function (params) {
+		params.api.sizeColumnsToFit();
 	},
 	onCellClicked: function (params) {
-		if (params.colDef.field === 'Name') {
-			cloneClickListener(params);
+		if (params.colDef.field === 'Controls' && params.event.path.length > 0) {
+			let node = params.event.path.find(item => {
+				return item && item.nodeName === 'svg';
+			});
+
+			if (!node) {
+				return;
+			}
+
+			let classList = node.classList;
+			if (classList.contains('edit')) {
+				params.api.startEditingCell({
+					rowIndex: params.node.rowIndex,
+					colKey: 'Value'
+				});
+			} else if (classList.contains('clone')) {
+				cloneClickListener(params);
+			} else if (classList.contains('delete')) {
+				deleteClickListener(params);
+			}
 		}
 	},
 	onCellValueChanged: function (params) {
@@ -211,13 +301,13 @@ let gridOptions = {
 				params.api.updateRowData({
 					update: [params.data]
 				});
-				dialog.showErrorBox('Update Failed', 'Please make sure your credentials are correct and you have an internet connection.');
+				dialog.showErrorBox('Update Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
 				console.error(err, err.stack);
 			});
 	}
 };
 
-let eGridDiv = document.querySelector('#parameterGrid');
+let eGridDiv = document.querySelector('#parameter-grid');
 
 // create the grid passing in the div to use together with the columns & data we want to use
 new Grid(eGridDiv, gridOptions);
@@ -227,7 +317,7 @@ function loadProfiles() {
 		.then(profiles => {
 			profilesSelect.options.length = 0;
 			if (!profiles || profiles.length === 0) {
-				loader.stop();
+				stop();
 				return false;
 			}
 
@@ -248,8 +338,7 @@ function loadProfiles() {
 			return true;
 		})
 		.catch(() => {
-			loader.stop();
-			getAllParamsBtn.disabled = true;
+			stop();
 			addBtn.disabled = true;
 			deleteBtn.disabled = true;
 			profilesSelect.disabled = true;
