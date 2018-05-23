@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
-	"productName": "Parameters",
-	"version": "0.6.0",
+	"productName": "Secret AWSome",
+	"version": "0.7.0",
 	"description": "Easily manage AWS SSM Parameter Store items across regions",
 	"main": "src/main.js",
 	"scripts": {
@@ -30,14 +30,16 @@
 	"homepage": "https://github.com/observian/aws-ssm-parameter-manager#readme",
 	"dependencies": {
 		"ag-grid": "^17.1.1",
-		"aws-sdk": "^2.226.1",
+		"aws-sdk": "^2.231.1",
 		"bluebird": "^3.5.1",
 		"electron-compile": "^6.4.2",
+		"electron-devtools-installer": "^2.2.3",
 		"electron-squirrel-startup": "^1.0.0",
 		"glob": "^7.1.2",
 		"jquery": "^3.3.1",
 		"line-by-line": "^0.1.6",
-		"query-string": "^6.0.0"
+		"mkdirp": "^0.5.1",
+		"query-string": "^6.1.0"
 	},
 	"devDependencies": {
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
@@ -46,7 +48,13 @@
 		"devtron": "1.4.0",
 		"electron-forge": "^5.2.0",
 		"electron-prebuilt-compile": "1.8.4",
-		"transpile": "^2.6.2"
+		"transpile": "^2.6.2",
+		"babel-plugin-transform-es2015-classes": "^6.24.1",
+		"eslint": "^4.19.1",
+		"eslint-config-airbnb": "^16.1.0",
+		"eslint-plugin-import": "^2.11.0",
+		"eslint-plugin-jsx-a11y": "^6.0.3",
+		"eslint-plugin-react": "^7.7.0"
 	},
 	"config": {
 		"forge": {
@@ -66,18 +74,23 @@
 			"electronPackagerConfig": {
 				"packageManager": "npm",
 				"appBundleId": "A525J3CKM8.com.github.aws-ssm-parameter-manager",
-				"osxSign": true
+				"icon": "./src/assets/images/icons.icns",
+				"osxSign": true,
+				"asar": true
 			},
 			"electronWinstallerConfig": {
-				"name": "Parameters"
+				"name": "SecretAWSome",
+				"iconUrl": "./src/assets/images/icon.ico"
 			},
 			"electronInstallerDebian": {
-				"name": "Parameters"
+				"name": "SecretAWSome"
 			},
 			"electronInstallerFlatpak": {
-				"name": "Parameters"
+				"name": "SecretAWSome"
 			},
-			"electronInstallerRedhat": {},
+			"electronInstallerRedhat": {
+				"name": "SecretAWSome"
+			},
 			"github_repository": {
 				"owner": "observian",
 				"name": "aws-ssm-parameter-manager"

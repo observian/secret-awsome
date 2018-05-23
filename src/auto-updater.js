@@ -1,10 +1,16 @@
-const {
+import {
 	app,
 	autoUpdater,
 	Menu
-} = require('electron');
-const ChildProcess = require('child_process');
-const path = require('path');
+} from 'electron';
+
+import {
+	ChildProcess
+} from 'child_process';
+
+import {
+	path
+} from 'path';
 
 let state = 'checking';
 

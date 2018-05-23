@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="33" viewBox="0 0 32 33">
+  <defs>
+    <linearGradient id="boxchecked-c" x1="12.453%" x2="87.895%" y1="84.924%" y2="16.33%">
+      <stop offset="0%" stop-color="#1D8DBA"/>
+      <stop offset="100%" stop-color="#03ECAE"/>
+    </linearGradient>
+    <rect id="boxchecked-b" width="24" height="24" y=".5" rx="6"/>
+    <filter id="boxchecked-a" width="158.3%" height="158.3%" x="-29.2%" y="-20.8%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.98139881   0 0 0 0 0.98139881   0 0 0 0 0.98139881  0 0 0 0.188575634 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(4 2)">
+    <use fill="#000" filter="url(#boxchecked-a)" xlink:href="#boxchecked-b"/>
+    <use fill="url(#boxchecked-c)" xlink:href="#boxchecked-b"/>
+    <rect width="22" height="22" x="1" y="1.5" stroke="url(#boxchecked-c)" stroke-width="2" rx="6"/>
+    <polyline stroke="#101E2D" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.375" points="5.126 14.996 11.571 18.679 17.923 6.687" transform="rotate(6 11.524 12.683)"/>
+  </g>
+</svg>

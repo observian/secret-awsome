@@ -1,5 +1,7 @@
 const Promise = require('bluebird');
 const fs = require('fs');
+const path = require('path');
+const mkdirp = require('mkdirp');
 Promise.promisifyAll(fs);
 
 const os = require('os');
@@ -7,6 +9,12 @@ const Reader = require('line-by-line');
 
 function getFilePath() {
 	return process.env.AWS_SHARED_CREDENTIALS_FILE ? process.env.AWS_SHARED_CREDENTIALS_FILE : `${os.homedir()}/.aws/credentials`;
+}
+
+// Create empty credential file if it does not exist
+if (!fs.existsSync(getFilePath())) {
+	mkdirp.sync(path.dirname(getFilePath()), '0750');
+	fs.closeSync(fs.openSync(getFilePath(), 'a'));
 }
 
 function getReader() {

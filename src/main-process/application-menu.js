@@ -1,9 +1,9 @@
-const {
+import {
 	BrowserWindow,
 	Menu,
 	app,
 	shell
-} = require('electron');
+} from 'electron';
 
 let template = [{
 	label: 'Edit',
@@ -57,6 +57,12 @@ let template = [{
 				}
 				focusedWindow.reload();
 			}
+		}
+	}, {
+		label: 'Refresh Parameters',
+		accelerator: 'CmdOrCtrl+Shift+R',
+		click: () => {
+			global.indexWindow.webContents.send('reload');
 		}
 	}, {
 		label: 'Toggle Full Screen',

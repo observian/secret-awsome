@@ -1,39 +1,57 @@
-const {
+import {
 	app,
-	BrowserWindow
-} = require('electron');
-const path = require('path');
-const url = require('url');
-const glob = require('glob');
+	BrowserWindow,
+	dialog
+} from 'electron';
 
-if (require('electron-squirrel-startup')) app.quit();
+import installExtension, {
+	JQUERY_DEBUGGER,
+} from 'electron-devtools-installer';
+
+import {
+	join
+} from 'path';
+
+import {
+	format
+} from 'url';
+
+import {
+	sync
+} from 'glob';
+
+if (require('electron-squirrel-startup')) {
+	app.quit();
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let indexWindow = {};
 let modifyWindow = {};
 
-const debug = /--debug|--inspect-brk/.test(process.argv[2]);
+const isDevMode = process.execPath.match(/[\\/]electron/);
 
-function createIndexWindow(width, height, view) {
+const createIndexWindow = async (width, height, view) => {
 	// Create the browser window.
 	indexWindow = new BrowserWindow({
 		width: width,
-		height: height
+		height: height,
+		minWidth: 845,
+		minHeight: 400
 	});
 
 	// and load the index.html of the app.
-	indexWindow.loadURL(url.format({
-		pathname: path.join(__dirname, view),
+	indexWindow.loadURL(format({
+		pathname: join(__dirname, view),
 		protocol: 'file:',
 		slashes: true
 	}));
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
-	if (debug) {
-		indexWindow.webContents.openDevTools();
-		//mainWindow.maximize();
+	if (isDevMode) {
+		await installExtension(JQUERY_DEBUGGER);
 		require('devtron').install();
+		indexWindow.webContents.openDevTools();
 	}
 
 	// Emitted when the window is closed.
@@ -46,31 +64,41 @@ function createIndexWindow(width, height, view) {
 		profileWindow = null;
 	});
 
-	global.indexWindow = indexWindow;
-}
+	indexWindow.webContents.on('crashed', crash => {
+		dialog.showErrorBox('An applicatoin exception occurred', crash);
+	});
 
-function createModifyWindow(width, height, view) {
+	indexWindow.on('unresponsive', () => {
+		dialog.showErrorBox('The application has become unresponsive.');
+	});
+
+	global.indexWindow = indexWindow;
+};
+
+const createModifyWindow = async (width, height, view) => {
 	// Create the browser window.
 	modifyWindow = new BrowserWindow({
 		width: width,
 		height: height,
 		parent: indexWindow,
-		modal: false,
-		show: false
+		modal: true,
+		show: false,
+		resizable: false,
+		center: true
 	});
 
 	// and load the index.html of the app.
-	modifyWindow.loadURL(url.format({
-		pathname: path.join(__dirname, view),
+	modifyWindow.loadURL(format({
+		pathname: join(__dirname, view),
 		protocol: 'file:',
 		slashes: true
 	}));
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
-	if (debug) {
-		modifyWindow.webContents.openDevTools();
-		//mainWindow.maximize();
+	if (isDevMode) {
+		await installExtension(JQUERY_DEBUGGER);
 		require('devtron').install();
+		modifyWindow.webContents.openDevTools();
 	}
 
 	// Emitted when the window is closed.
@@ -79,33 +107,42 @@ function createModifyWindow(width, height, view) {
 		modifyWindow.hide();
 	});
 
-	global.modifyWindow = modifyWindow;
-}
+	modifyWindow.webContents.on('crashed', crash => {
+		dialog.showErrorBox('An applicatoin exception occurred', crash);
+	});
 
+	modifyWindow.on('unresponsive', () => {
+		dialog.showErrorBox('The application has become unresponsive.');
+	});
+
+	global.modifyWindow = modifyWindow;
+};
 
 let profileWindow = null;
 
-function createProfileWindow(width, height, view) {
+const createProfileWindow = async (width, height, view) => {
 	profileWindow = new BrowserWindow({
 		width: width,
 		height: height,
 		parent: indexWindow,
-		modal: false,
-		show: false
+		modal: true,
+		show: false,
+		center: true,
+		resizable: false
 	});
 
 	// and load the index.html of the app.
-	profileWindow.loadURL(url.format({
-		pathname: path.join(__dirname, view),
+	profileWindow.loadURL(format({
+		pathname: join(__dirname, view),
 		protocol: 'file:',
 		slashes: true
 	}));
 
 	// Launch fullscreen with DevTools open, usage: npm run debug
-	if (debug) {
-		profileWindow.webContents.openDevTools();
-		//mainWindow.maximize();
+	if (isDevMode) {
+		await installExtension(JQUERY_DEBUGGER);
 		require('devtron').install();
+		profileWindow.webContents.openDevTools();
 	}
 
 	// Emitted when the window is closed.
@@ -114,17 +151,25 @@ function createProfileWindow(width, height, view) {
 		profileWindow.hide();
 	});
 
+	profileWindow.webContents.on('crashed', crash => {
+		dialog.showErrorBox('An applicatoin exception occurred', crash);
+	});
+
+	profileWindow.on('unresponsive', () => {
+		dialog.showErrorBox('The application has become unresponsive.');
+	});
+
 	global.profileWindow = profileWindow;
-}
+};
 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-	createIndexWindow(1324, 768, 'index.html');
-	createModifyWindow(800, 600, 'modify.html');
-	createProfileWindow(840, 350, 'manage-profiles.html');
+app.on('ready', async () => {
+	await createIndexWindow(1325, 760, 'index.html');
+	await createModifyWindow(1115, 600, 'modify.html');
+	await createProfileWindow(1000, 400, 'manage-profiles.html');
 });
 
 // Quit when all windows are closed.
@@ -136,11 +181,11 @@ app.on('window-all-closed', () => {
 	//}
 });
 
-app.on('activate', () => {
+app.on('activate', async () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (!indexWindow) {
-		createIndexWindow(1324, 768, 'index.html');
+		await createIndexWindow(1325, 820, 'index.html');
 	}
 });
 
@@ -155,11 +200,15 @@ function loadMain() {
 	}
 
 
-	const files = glob.sync(path.join(__dirname, 'main-process/**/*.js'));
+	const files = sync(join(__dirname, 'main-process/**/*.js'));
 	files.forEach((file) => {
 		require(file);
 	});
 }
+
+process.on('uncaughtException', err => {
+	dialog.showErrorBox('An application exception occurred.', err.message);
+});
 
 loadMain();
 
