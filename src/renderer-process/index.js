@@ -67,17 +67,25 @@ jquery(document).on('click', 'a[href^="http"]', function (event) {
 });
 
 ipcRenderer.on('reload', () => {
+	loadParameters();
+});
+
+ipcRenderer.on('reload-all', () => {
 	loadAll();
 });
+
+function loadParameters() {
+	getAllParameters()
+		.then(() => {
+			ipcRenderer.send('index-reload-complete');
+		});
+}
 
 function loadAll() {
 	loadProfiles()
 		.then(profilesLoaded => {
 			if (profilesLoaded) {
-				getAllParameters()
-					.then(() => {
-						ipcRenderer.send('index-reload-complete');
-					});
+				loadParameters();
 			} else {
 				ipcRenderer.send('manage-profiles-open');
 			}
@@ -99,10 +107,11 @@ function cloneClickListener(params) {
 
 	let data = {
 		data: params.data,
-		selectedRegions: selectedRegions
+		selectedRegions: selectedRegions,
+		profile: profilesSelect.value
 	};
 
-	ipcRenderer.send('modify-open', JSON.stringify(data));
+	ipcRenderer.send('modify-clone', data);
 }
 
 function deleteRows(rows) {
@@ -115,7 +124,7 @@ function deleteRows(rows) {
 			});
 		})
 		.catch(err => {
-			dialog.showErrorBox('Delete Failed', err.message);
+			dialog.showErrorBox('Delete Failed', err.message + '\n\nAlso, please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the View menu.');
 		})
 		.finally(() => {
 			stop();
@@ -148,7 +157,7 @@ function getAllParameters() {
 			gridOptions.api.setRowData(params);
 		})
 		.catch(err => {
-			dialog.showErrorBox('Request Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
+			dialog.showErrorBox('Request Failed', err.message + '\n\nAlso, please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the View menu.');
 			gridOptions.api.setRowData([]);
 			console.error(err, err.stack);
 		})
@@ -174,8 +183,15 @@ deleteBtn.addEventListener('click', () => {
 	deleteRows(selectedRows);
 });
 
+profilesSelect.addEventListener('change', function () {
+	setCredentials(this.value);
+	getAllParameters();
+});
+
 addBtn.addEventListener('click', () => {
-	ipcRenderer.send('modify-open');
+	ipcRenderer.send('modify-add', {
+		profile: profilesSelect.value
+	});
 });
 
 let columnDefs = [{
@@ -301,7 +317,7 @@ let gridOptions = {
 				params.api.updateRowData({
 					update: [params.data]
 				});
-				dialog.showErrorBox('Update Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
+				dialog.showErrorBox('Update Failed', err.message + '\n\nAlso, please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the View menu.');
 				console.error(err, err.stack);
 			});
 	}
@@ -326,14 +342,7 @@ function loadProfiles() {
 				profilesSelect.options[profilesSelect.options.length] = new Option(profile.name, profile.name);
 			}
 
-			let jProf = jquery(profilesSelect);
-
-			jProf.change(function () {
-				setCredentials(this.value);
-				getAllParameters();
-			});
-
-			setCredentials(jProf.val());
+			setCredentials(profilesSelect.value);
 
 			return true;
 		})

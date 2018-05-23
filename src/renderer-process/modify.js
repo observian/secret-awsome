@@ -1,4 +1,5 @@
 import {
+	setCredentials,
 	updateParameters,
 	defaultRegions
 } from '../api/ssm';
@@ -50,10 +51,10 @@ function saveForm() {
 		.then(result => {
 			document.getElementById('save-parameters').blur();
 			ipcRenderer.send('modify-done');
-			ipcRenderer.send('reload-index', JSON.stringify(result));
+			ipcRenderer.send('reload-parameters', JSON.stringify(result));
 		})
 		.catch(err => {
-			dialog.showErrorBox('Save Failed', 'Please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the Window menu.');
+			dialog.showErrorBox('Save Failed', err.message + '\n\nAlso, please make sure your credentials are correct and you have an internet connection. Credentials can be updated via Manage Profiles in the View menu.');
 			console.error(err, err.stack);
 		})
 		.finally(() => {
@@ -93,7 +94,7 @@ function setValues(obj) {
 		jquery('#name').prop('readonly', false);
 		jquery('#parameter-type-region option').prop('disabled', false).prop('selected', false);
 
-		if (obj) {
+		if (obj.data && obj.selectedRegions) {
 			jquery('#name').val(obj.data.Name);
 			jquery('#name').prop('readonly', true);
 			jquery(`#parameter-type-region option[value="${obj.data.Type}"]`).prop('selected', true);
@@ -115,10 +116,10 @@ function setValues(obj) {
 	return prom;
 }
 
-ipcRenderer.on('open-message', (event, arg) => {
+ipcRenderer.on('open', (event, obj) => {
 	load();
 
-	let obj = JSON.parse(arg);
+	setCredentials(obj.profile);
 
 	setValues(obj)
 		.finally(() => {
