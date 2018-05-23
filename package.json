@@ -75,7 +75,8 @@
 				"packageManager": "npm",
 				"appBundleId": "A525J3CKM8.com.github.aws-ssm-parameter-manager",
 				"icon": "./src/assets/images/icons.icns",
-				"osxSign": true
+				"osxSign": true,
+				"asar": true
 			},
 			"electronWinstallerConfig": {
 				"name": "SecretAWSome",
