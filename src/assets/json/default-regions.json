@@ -25,6 +25,26 @@
 			"endpoint": "ssm.ca-central-1.amazonaws.com"
 		},
 		{
+			"displayname": "EU (Frankfurt)",
+			"region": "eu-central-1",
+			"endpoint": "ssm.eu-central-1.amazonaws.com"
+		},
+		{
+			"displayname": "EU (Ireland)",
+			"region": "eu-west-1",
+			"endpoint": "ssm.eu-west-1.amazonaws.com"
+		},
+		{
+			"displayname": "EU (London)",
+			"region": "eu-west-2",
+			"endpoint": "ssm.eu-west-2.amazonaws.com"
+		},
+		{
+			"displayname": "South America (São Paulo)",
+			"region": "sa-east-1",
+			"endpoint": "ssm.sa-east-1.amazonaws.com"
+		},
+		{
 			"displayname": "Asia Pacific (Mumbai)",
 			"region": "ap-south-1",
 			"endpoint": "ssm.ap-south-1.amazonaws.com"
@@ -48,26 +68,6 @@
 			"displayname": "Asia Pacific (Seoul)",
 			"region": "ap-northeast-2",
 			"endpoint": "ssm.ap-northeast-2.amazonaws.com"
-		},
-		{
-			"displayname": "EU (Frankfurt)",
-			"region": "eu-central-1",
-			"endpoint": "ssm.eu-central-1.amazonaws.com"
-		},
-		{
-			"displayname": "EU (Ireland)",
-			"region": "eu-west-1",
-			"endpoint": "ssm.eu-west-1.amazonaws.com"
-		},
-		{
-			"displayname": "EU (London)",
-			"region": "eu-west-2",
-			"endpoint": "ssm.eu-west-2.amazonaws.com"
-		},
-		{
-			"displayname": "South America (São Paulo)",
-			"region": "sa-east-1",
-			"endpoint": "ssm.sa-east-1.amazonaws.com"
 		}
 	]
 }

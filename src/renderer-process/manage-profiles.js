@@ -19,9 +19,10 @@ const {
 	dialog
 } = remote;
 
-const saveProfilesBtn = document.getElementById('save-profiles');
+const saveProfilesBtn = document.getElementById('save-profile');
 const addBtn = document.getElementById('add-profile');
 const deleteBtn = document.getElementById('delete-profile');
+const cancelBtn = document.getElementById('cancel-profile');
 
 function getAllProfiles() {
 	return getProfiles()
@@ -29,6 +30,8 @@ function getAllProfiles() {
 			gridOptions.api.setRowData(profiles);
 		})
 		.catch(err => {
+			dialog.showErrorBox('Unable to Read Profiles', err.message);
+
 			console.error(err, err.stack);
 		})
 		.finally(() => {
@@ -57,6 +60,7 @@ saveProfilesBtn.addEventListener('click', () => {
 			saveProfiles(profiles);
 			ipcRenderer.send('profile-done');
 			ipcRenderer.send('reload-index');
+			saveProfilesBtn.blur();
 		}
 	});
 
@@ -83,6 +87,11 @@ addBtn.addEventListener('click', () => {
 			aws_secret_access_key: ''
 		}]
 	});
+});
+
+cancelBtn.addEventListener('click', () => {
+	ipcRenderer.send('profile-done');
+	cancelBtn.blur();
 });
 
 let columnDefs = [{
@@ -172,7 +181,7 @@ let gridOptions = {
 	}
 };
 
-let eGridDiv = document.querySelector('#profilesGrid');
+let eGridDiv = document.querySelector('#profiles-grid');
 
 // create the grid passing in the div to use together with the columns & data we want to use
 new Grid(eGridDiv, gridOptions);

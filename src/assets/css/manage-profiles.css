@@ -1,0 +1,108 @@
+html,
+body,
+main {
+	display: flex;
+	flex-flow: column;
+	border-radius: 10px;
+	font-family: 'Open Sans';
+	font-size: 18px;
+	color: #DCE1E0;
+	background: linear-gradient(55.05deg, #172A3F 0%, #344960 100%);
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	/* box-shadow: 0 10px 40px 0 rgba(20, 22, 25, 0.28); */
+}
+
+main {
+	padding: 30px 30px;
+	height: 100%;
+}
+
+input[type=text],
+select {
+	color: #DCE1E0;
+	background-color: rgba(0, 0, 0, 0.0);
+	border-style: none;
+	font-family: 'Open Sans';
+	font-size: 18px;
+	height: 40px;
+}
+
+.content {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	margin-top: 20px;
+}
+
+button {
+	display: flex;
+	justify-content: space-between;
+	height: 43px;
+	border-radius: 20.5px;
+	color: #04EAAE;
+	font-size: 14px;
+	background: linear-gradient(257.61deg, #FFFFFF 0%, #EDEDED 100%);
+	border-style: none;
+	padding: 0px 30px;
+	cursor: pointer;
+}
+
+.header-fields {
+	display: flex;
+	justify-content: right;
+	margin-bottom: 20px;
+}
+
+.footer-fields {
+	display: flex;
+	flex-direction: row-reverse;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.note {
+	display: flex;
+	margin-left: 15px;
+}
+
+#save-profile {
+	width: 164px;
+}
+
+#add-profile,
+#delete-profile,
+#cancel-profile {
+	justify-content: center;
+	width: 130px;
+	margin: 0px 20px 0px 0px;
+}
+
+.fa-edit .fa-clone {
+	margin-left: 3px;
+	margin-right: 5px;
+}
+
+.fa-arrow-right {
+	margin-top: 2px;
+}
+
+#profiles-grid {
+	height: 100%;
+}
+
+.ag-cell-edit-input {
+	background-color: rgba(0, 0, 0, 0);
+	font-family: 'Source Sans Pro';
+	font-size: 14px;
+	color: #DCE1E0;
+}
+
+.ag-cell-inline-editing {
+	background: rgba(0, 0, 0, 0) !important;
+}
+
+.ag-theme-balham .ag-cell-focus {
+	border-color: rgba(0, 0, 0, 0);
+}

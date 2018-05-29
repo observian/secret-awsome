@@ -59,6 +59,12 @@ let template = [{
 			}
 		}
 	}, {
+		label: 'Refresh Parameters',
+		accelerator: 'CmdOrCtrl+Shift+R',
+		click: () => {
+			global.indexWindow.webContents.send('reload');
+		}
+	}, {
 		label: 'Toggle Full Screen',
 		accelerator: (() => {
 			if (process.platform === 'darwin') {
