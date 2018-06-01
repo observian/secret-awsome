@@ -83,8 +83,7 @@
 				"asar": true
 			},
 			"electronWinstallerConfig": {
-				"name": "SecretAWSome",
-				"icon": "./src/assets/images/icon.ico"
+				"name": "SecretAWSome"
 			},
 			"electronInstallerDebian": {
 				"name": "SecretAWSome"
