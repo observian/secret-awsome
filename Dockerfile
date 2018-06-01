@@ -10,4 +10,5 @@ RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:alexlarsson/flatpak
 RUN apt-get install -y flatpak-builder
 RUN apt-get install -y fakeroot
-
+RUN apt-get install -y zip
+RUN apt-get install -y unzip
