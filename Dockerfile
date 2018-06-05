@@ -16,5 +16,5 @@ RUN dpkg --add-architecture i386
 RUN apt-get update -y
 RUN apt-get install -y wine32
 RUN apt-get install -y mono-devel
-RUN apt-get rpm
+RUN apt-get install -y rpm
 
