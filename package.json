@@ -70,29 +70,30 @@
 					"dmg"
 				],
 				"linux": [
+					"flatpak",
 					"zip",
-					"deb",
-					"flatpak"
+					"deb"
 				]
 			},
 			"electronPackagerConfig": {
 				"packageManager": "npm",
+				"name": "Secret-AWSome",
 				"appBundleId": "A525J3CKM8.com.github.aws-ssm-parameter-manager",
 				"icon": "./src/assets/images/icons.icns",
 				"osxSign": true,
 				"asar": true
 			},
 			"electronWinstallerConfig": {
-				"name": "SecretAWSome"
+				"name": "Secret-AWSome"
 			},
 			"electronInstallerDebian": {
-				"name": "SecretAWSome"
+				"name": "Secret-AWSome"
 			},
 			"electronInstallerFlatpak": {
-				"name": "SecretAWSome"
+				"name": "Secret-AWSome"
 			},
 			"electronInstallerRedhat": {
-				"name": "SecretAWSome"
+				"name": "Secret-AWSome"
 			},
 			"github_repository": {
 				"owner": "observian",
