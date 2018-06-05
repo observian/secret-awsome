@@ -5,22 +5,16 @@ env:
     GH_TOKEN: "/parameter-manager/prod/githubtoken"
 
 phases:
-  # install:
-  #   commands:
-      # - apt-get install -y flatpak
-      # - npm install electron-forge -g
   pre_build:
     commands:
       - npm install
   build:
     commands:
-      - electron-forge make
+      - npm run-script make -- --platform="linux"
+      - npm run-script make -- --platform="win32"
 artifacts:
   files:
     - 'make/*'
+    - 'make/squirrel.windows/*'
   discard-paths: yes
   base-directory: out
-# cache:
-#   paths:
-#     - path
-#     - path
