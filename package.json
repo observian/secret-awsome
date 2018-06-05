@@ -71,6 +71,7 @@
 				],
 				"linux": [
 					"flatpak",
+					"rpm",
 					"zip",
 					"deb"
 				]

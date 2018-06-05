@@ -32,13 +32,19 @@ let modifyWindow = {};
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
 const createIndexWindow = async (width, height, view) => {
-	// Create the browser window.
-	indexWindow = new BrowserWindow({
+	let bwOpts = {
 		width: width,
 		height: height,
 		minWidth: 845,
 		minHeight: 400
-	});
+	};
+
+	if (process.platform === 'linux') {
+		bwOpts.icon = './assets/images/icons.png';
+	}
+
+	// Create the browser window.
+	indexWindow = new BrowserWindow(bwOpts);
 
 	// and load the index.html of the app.
 	indexWindow.loadURL(format({
