@@ -10,8 +10,8 @@ phases:
       - npm install
   build:
     commands:
-      - npm run-script make -- --platform="linux"
-      - npm run-script make -- --platform="win32"
+      - npm run-script make -- --platform="linux" --asar="false"
+      - npm run-script make -- --platform="win32" --asar="true"
 artifacts:
   files:
     - 'make/**/*'
