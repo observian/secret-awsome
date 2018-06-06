@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
 	"productName": "Secret AWSome",
-	"version": "0.7.4",
+	"version": "0.7.5",
 	"description": "Easily manage AWS Systems Manager Parameter Store items across regions",
 	"main": "src/es6-init.js",
 	"scripts": {
@@ -81,6 +81,7 @@
 				"name": "Secret-AWSome",
 				"icon": "./src/assets/images/icons.icns",
 				"appBundleId": "A525J3CKM8.com.github.aws-ssm-parameter-manager",
+				"asar": true,
 				"osxSign": true
 			},
 			"electronWinstallerConfig": {
