@@ -1,6 +1,16 @@
-# Secret AWSome
+<p align="center">
+  <h1 align="center">Secret AWSome</h1>
+</p>
 
-Easily manage AWS Systems Manager Parameter Store items across regions
+<p align="center">
+  Easily manage AWS Systems Manager Parameter Store items across regions
+</p>
+
+<p align="center">
+  <a href="https://jaaromy.visualstudio.com/SecretAWSome/_build/index?definitionId=1&_a=summary">
+    <img src="https://jaaromy.visualstudio.com/_apis/public/build/definitions/fe839001-5191-4cf4-87ad-07c4aa23b582/1/badge">
+  </a>
+</p>
 
 ## Main View
 

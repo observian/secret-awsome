@@ -4,6 +4,7 @@
 	"version": "0.7.5",
 	"description": "Easily manage AWS Systems Manager Parameter Store items across regions",
 	"main": "src/es6-init.js",
+	"displayName": "Secret-AWSome",
 	"scripts": {
 		"start": "electron-forge start",
 		"dev": "electron . --debug",
