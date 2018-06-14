@@ -22,6 +22,6 @@
 
 ## Manage Multiple Profiles
 
-Reads/Writes to your local AWS `credentials` file. More information on the local configuration and credential files can be found [here.](https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
+Reads/Writes to your local AWS `credentials` file. More information on the local `config` and `credentials` files can be found [here.](https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
 
 ![Manage Profiles](./docs/profile_manager.png)
