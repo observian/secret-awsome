@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
 	"productName": "Secret AWSome",
-	"version": "0.7.7",
+	"version": "0.7.8",
 	"description": "Easily manage AWS Systems Manager Parameter Store items across regions",
 	"main": "src/es6-init.js",
 	"private": true,
@@ -93,7 +93,9 @@
 			},
 			"electronWinstallerConfig": {
 				"name": "Secret-AWSome",
-				"setupExe": "win-Setup.exe"
+				"setupExe": "win-Setup.exe",
+				"certificateFile": "{{CERT_FILENAME}}",
+				"certificatePassword": "{{CERT_PASSWORD}}"
 			},
 			"electronInstallerDebian": {
 				"name": "Secret-AWSome",

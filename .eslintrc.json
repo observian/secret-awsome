@@ -22,6 +22,7 @@
 		"valid-typeof": "warn",
 		"semi": "error",
 		"no-var": "warn",
+		"linebreak-style": 0,
 		"quotes": ["warn", "single", {
 			"avoidEscape": true
 		}]
