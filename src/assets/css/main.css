@@ -181,3 +181,12 @@ main {
 .ag-theme-balham .ag-cell-focus {
 	border-color: rgba(0, 0, 0, 0);
 }
+
+[col-id="Name"] {
+	cursor: text;
+	/* enable user mouse selection */
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
+}
