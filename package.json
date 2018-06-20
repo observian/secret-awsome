@@ -1,7 +1,7 @@
 {
 	"name": "aws-ssm-parameter-manager",
 	"productName": "Secret AWSome",
-	"version": "0.7.9",
+	"version": "0.7.10",
 	"description": "Easily manage AWS Systems Manager Parameter Store items across regions",
 	"main": "src/es6-init.js",
 	"private": true,
@@ -25,7 +25,7 @@
 		"AWS",
 		"Parameters"
 	],
-	"author": "Jaaromy Zierse",
+	"author": "Observian, Inc.",
 	"license": "GPL-3.0",
 	"bugs": {
 		"url": "https://github.com/observian/aws-ssm-parameter-manager/issues"
