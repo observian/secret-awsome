@@ -116,7 +116,6 @@ function cloneClickListener(params) {
 
 function deleteRows(rows) {
 	load();
-	deleteBtn.disabled = true;
 	deleteParameters(rows)
 		.then(() => {
 			gridOptions.api.updateRowData({
@@ -348,9 +347,6 @@ function loadProfiles() {
 		})
 		.catch(() => {
 			stop();
-			addBtn.disabled = true;
-			deleteBtn.disabled = true;
-			profilesSelect.disabled = true;
 			gridOptions.api.setRowData([]);
 
 			return false;
