@@ -77,7 +77,6 @@
           "dmg"
         ],
         "linux": [
-          "flatpak",
           "rpm",
           "zip",
           "deb"
